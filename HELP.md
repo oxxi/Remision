@@ -60,6 +60,11 @@
 
 [//]: # (* [Producing a SOAP web service]&#40;https://spring.io/guides/gs/producing-web-service/&#41;)
 
+### path
+http://localhost:8080/remsion
+
+las demas rutas estan bajo es 👆 dirección ejemplo :
+ http://localhost:8080/remision/ubicacion
 ### Command
 .\mvnw install -DskipTests
 
