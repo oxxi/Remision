@@ -58,8 +58,10 @@ public class TransportAgencyEntity implements Serializable {
         TransportAgencyModel model  = new TransportAgencyModel();
         model.setId(this.getId());
         model.setName(this.getName());
+        model.setRtn(this.getRtn());
+        model.setPhoneNumber(this.getPhoneNumber());
         model.setAddress(this.getAddress());
-        model.setModifiedBy(this.getCreatedBy());
+        model.setCreatedBy(this.getCreatedBy());
         model.setCreatedAt(this.getCreatedAt());
         model.setModifiedBy(this.getModifiedBy());
         model.setModifiedAt(this.getModifiedAt());

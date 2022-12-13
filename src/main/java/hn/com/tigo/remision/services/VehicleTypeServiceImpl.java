@@ -21,7 +21,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
 
     @Override
     public List<VehicleTypesModel> getAll() {
-        List<VehicleTypeEntity> entities = this.vehicleTypeRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        List<VehicleTypeEntity> entities = this.vehicleTypeRepository.findAll(Sort.by(Sort.Direction.ASC,"id"));
         return entities.stream().map(e->{
             VehicleTypesModel model = new VehicleTypesModel();
             model.setId(e.getId());
@@ -56,6 +56,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
         entity.setId(-1L);//used this to avoid error of identity generation in Hibernate it's no the best way, but works in this scenario when the db already exist
         entity.setDescription(model.getDescription());
         entity.setCreateBy(model.getCreatedBy());
+        entity.setCreatedAt(LocalDateTime.now());
         entity.setStatus("A");
         this.vehicleTypeRepository.save(entity);
     }
