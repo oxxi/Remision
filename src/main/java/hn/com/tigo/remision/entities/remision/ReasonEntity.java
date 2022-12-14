@@ -54,10 +54,10 @@ public class ReasonEntity implements Serializable {
         model.setStatus(this.getStatus());
         model.setCreatedBy(this.getCreatedBy());
         model.setCreatedAt(this.getCreatedAt());
-        model.setCreatedAtString(this.getCreatedAt().format(formatter));
+        model.setCreatedAtString(this.getCreatedAt() == null ? null : this.getCreatedAt().format(formatter));
         model.setModifiedBy(this.getModifiedBy());
         model.setModifiedAt(this.getModifiedAt());
-        model.setModifiedAtString(this.getModifiedAt().format(formatter));
+        model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
         return model;
     }
 

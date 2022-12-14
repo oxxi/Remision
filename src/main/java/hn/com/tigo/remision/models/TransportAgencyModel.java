@@ -21,8 +21,9 @@ public class TransportAgencyModel {
     private String phoneNumber;
     private String createdBy;
     private LocalDateTime createdAt;
+    private String createdAtString;
     private String modifiedBy;
     private LocalDateTime modifiedAt;
-
+    private String modifiedAtString;
     private String status;
 }

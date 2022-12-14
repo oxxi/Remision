@@ -35,13 +35,13 @@ public class UnitController {
 
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody UnitOfMeasurementModel model) {
-        this.unitService.add(model,"A");
+        this.unitService.add(model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody UnitOfMeasurementModel model) {
-        this.unitService.update(id,model,"A");
+        this.unitService.update(id,model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 

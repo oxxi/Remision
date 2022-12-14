@@ -6,6 +6,7 @@ import hn.com.tigo.remision.models.LocationModel;
 import hn.com.tigo.remision.repositories.remision.ILocationRepository;
 import hn.com.tigo.remision.services.interfaces.ILocationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class LocationServiceImpl implements ILocationService {
+
 
     private final ILocationRepository locationRepository;
 
