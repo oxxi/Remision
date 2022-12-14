@@ -30,4 +30,9 @@ public class LogServiceImpl implements ILogService {
         entities = this.logRepository.getAll();
         return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
     }
+
+    @Override
+    public void insertLog(LogEntity entity) {
+
+    }
 }

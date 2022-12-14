@@ -21,19 +21,16 @@ public class LocationController {
         this.locationService = locationService;
         this.util = new Util();
     }
-
     @GetMapping()
     public ResponseEntity<Object> getAll() {
         List<LocationModel> listModel =  this.locationService.getAll();
         return ResponseEntity.ok(this.util.setSuccessResponse(listModel));
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
         LocationModel model = this.locationService.getById(id);
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
-
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody LocationModel model) {
         this.locationService.add(model);

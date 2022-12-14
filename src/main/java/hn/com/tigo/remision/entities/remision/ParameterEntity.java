@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Table(name = "PARAMETRO_GENERAL")
 @Entity
@@ -36,12 +37,13 @@ public class ParameterEntity implements Serializable {
 
 
     public GeneralParameter entityToModel() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         GeneralParameter model = new GeneralParameter();
         model.setDescription(this.getDescription());
         model.setName(this.getParameterName());
         model.setValue(this.getParameterValue());
         model.setModifiedBy(this.getModifiedBy());
-        model.setModifiedAt(String.valueOf(this.getModifiedAt()));
+        model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
         return model;
     }
 }

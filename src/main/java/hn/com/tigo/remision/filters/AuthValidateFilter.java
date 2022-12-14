@@ -18,6 +18,8 @@ public class AuthValidateFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try{
+
+
           //  String userName= validateHeaderAuth(request);
            // UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,userName);
            // SecurityContextHolder.getContext().setAuthentication(authentication);

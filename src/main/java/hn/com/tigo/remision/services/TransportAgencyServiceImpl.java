@@ -4,6 +4,7 @@ import hn.com.tigo.remision.entities.remision.TransportAgencyEntity;
 import hn.com.tigo.remision.models.TransportAgencyModel;
 import hn.com.tigo.remision.repositories.remision.ITransportAgencyRepository;
 import hn.com.tigo.remision.services.interfaces.ITransportAgencyService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +23,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     @Override
     public List<TransportAgencyModel> getAll() {
 
-       List<TransportAgencyEntity> entities = this.transportAgencyRepository.findAll();
+       List<TransportAgencyEntity> entities = this.transportAgencyRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
        return entities.stream().map(e-> e.entityToModel()).collect(Collectors.toList());
     }
 
@@ -43,6 +44,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
         entity.setAddress(model.getAddress());
         entity.setRtn(model.getRtn());
         entity.setPhoneNumber(model.getPhoneNumber());
+        entity.setStatus(model.getStatus());
         this.transportAgencyRepository.save(entity);
 
     }
@@ -57,7 +59,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
         entity.setAddress(model.getAddress());
         entity.setRtn(model.getRtn());
         entity.setPhoneNumber(model.getPhoneNumber());
-
+        entity.setStatus(model.getStatus());
         this.transportAgencyRepository.save(entity);
     }
 

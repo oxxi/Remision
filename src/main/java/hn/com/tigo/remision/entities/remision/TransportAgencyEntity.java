@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Entity
@@ -55,15 +56,20 @@ public class TransportAgencyEntity implements Serializable {
 
 
     public TransportAgencyModel entityToModel() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         TransportAgencyModel model  = new TransportAgencyModel();
         model.setId(this.getId());
         model.setName(this.getName());
+        model.setPhoneNumber(this.getPhoneNumber());
         model.setAddress(this.getAddress());
-        model.setModifiedBy(this.getCreatedBy());
+        model.setCreatedBy(this.getCreatedBy());
         model.setCreatedAt(this.getCreatedAt());
         model.setModifiedBy(this.getModifiedBy());
         model.setModifiedAt(this.getModifiedAt());
         model.setStatus(this.getStatus());
+        model.setRtn(this.getRtn());
+        model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+        model.setCreatedAtString(this.getCreatedAt().format(formatter));
         return model;
     }
 }
