@@ -4,6 +4,7 @@ import hn.com.tigo.remision.entities.remision.UnitOfMeasurementEntity;
 import hn.com.tigo.remision.models.UnitOfMeasurementModel;
 import hn.com.tigo.remision.repositories.remision.IUnitOfMeasurementRepository;
 import hn.com.tigo.remision.services.interfaces.IUnitService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UnitServiceImpl implements IUnitService {
 
     private final IUnitOfMeasurementRepository repository;
@@ -25,18 +27,7 @@ public class UnitServiceImpl implements IUnitService {
     public List<UnitOfMeasurementModel> getAll() {
 
       List<UnitOfMeasurementEntity> entities= this.repository.findAll(Sort.by(Sort.Direction.DESC,"id"));
-      return entities.stream().map(x->{
-          UnitOfMeasurementModel model = new UnitOfMeasurementModel();
-          model.setId(x.getId());
-          model.setName(x.getNombre());
-          model.setStatus(String.valueOf(x.getEstado()));
-          model.setUnitScalar(x.getUnidadEscalar());
-          model.setModifiedBy(x.getUsuarioEdita());
-          model.setCreateBy(x.getUsuarioCrea());
-          model.setCreateAt(x.getFechaCreado());
-          model.setModifiedAt(x.getFechaEdita());
-          return model;
-      }).collect(Collectors.toList());
+      return entities.stream().map(x->x.entityToModel()).collect(Collectors.toList());
 
     }
 
@@ -51,21 +42,20 @@ public class UnitServiceImpl implements IUnitService {
         model.setStatus(String.valueOf(entity.getEstado()));
         model.setUnitScalar(entity.getUnidadEscalar());
         model.setModifiedBy(entity.getUsuarioEdita());
-        model.setCreateBy(entity.getUsuarioCrea());
-        model.setCreateAt(entity.getFechaCreado());
+        model.setCreatedBy(entity.getUsuarioCrea());
+        model.setCreatedAt(entity.getFechaCreado());
         model.setModifiedAt(entity.getFechaEdita());
         return model;
     }
 
     @Override
-    public void update(Long id,UnitOfMeasurementModel model, String userName) {
+    public void update(Long id,UnitOfMeasurementModel model) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
         if(entity == null) throw new RuntimeException("Error");
-        entity.setId(-1L);//used this to avoid error of identity generation in Hibernate it's no the best way, but works in this scenario when the db already exist
         entity.setNombre(model.getName());
         entity.setUnidadEscalar(model.getUnitScalar());
-        entity.setEstado(model.getStatus().toUpperCase().charAt(0));
-        entity.setUsuarioEdita(userName);
+        entity.setEstado(model.getStatus().toUpperCase());
+        entity.setUsuarioEdita(model.getModifiedBy());
         entity.setFechaEdita(LocalDateTime.now());
 
         this.repository.saveAndFlush(entity);
@@ -73,13 +63,15 @@ public class UnitServiceImpl implements IUnitService {
     }
 
     @Override
-    public void add(UnitOfMeasurementModel model, String userName) {
+    public void add(UnitOfMeasurementModel model) {
         UnitOfMeasurementEntity entity = new UnitOfMeasurementEntity();
+        entity.setId(-1L);
         entity.setNombre(model.getName());
         entity.setUnidadEscalar(model.getUnitScalar());
-        entity.setEstado(model.getStatus().toUpperCase().charAt(0));
-        entity.setUsuarioEdita(userName);
-        entity.setFechaEdita(LocalDateTime.now());
+        entity.setEstado(model.getStatus().toUpperCase());
+        entity.setUsuarioCrea(model.getCreatedBy());
+        entity.setFechaCreado(LocalDateTime.now());
+        log.info("entidad {}", entity);
         this.repository.save(entity);
     }
 

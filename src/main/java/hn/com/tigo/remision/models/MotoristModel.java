@@ -28,6 +28,6 @@ public class MotoristModel {
     private String createdAt;
     private String modifiedBy;
     private String modifiedAt;
-
+    private String status;
 
 }

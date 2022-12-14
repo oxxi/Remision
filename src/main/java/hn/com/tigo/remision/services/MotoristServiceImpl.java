@@ -44,6 +44,7 @@ public class MotoristServiceImpl implements IMotoristService {
         entity.setRtn(model.getRtn());
         entity.setCreatedBy(model.getCreatedBy());
         entity.setCreatedAt(LocalDate.now());
+        entity.setStatus(model.getStatus());
         this.motoristRepository.save(entity);
     }
 
@@ -51,13 +52,15 @@ public class MotoristServiceImpl implements IMotoristService {
     public void update(Long id, MotoristModel model) {
         MotoristEntity entity = this.motoristRepository.findById(id).orElse(null);
         if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
-        entity.setName(model.getName());
-        entity.setLastName(model.getLastName());
+        entity.setId(model.getId());
+        entity.setName(model.getName().toUpperCase());
+        entity.setLastName(model.getLastName().toUpperCase());
         entity.setLicenseNumber(model.getLicenseNumber());
         entity.setIdTransportAgency(model.getIdTransportAgency());
         entity.setRtn(model.getRtn());
         entity.setModifiedAt(LocalDate.now());
         entity.setModifiedBy(model.getModifiedBy());
+        this.motoristRepository.save(entity);
     }
 
     @Override

@@ -60,16 +60,17 @@ public class MotoristEntity implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         MotoristModel model = new MotoristModel();
         model.setId(this.getId());
-        model.setName(this.getName());
-        model.setLastName(this.getLastName());
+        model.setName(this.getName().toUpperCase());
+        model.setLastName(this.getLastName().toUpperCase());
         model.setLicenseNumber(this.getLicenseNumber());
         model.setIdTransportAgency(this.getIdTransportAgency());
         model.setTransportAgencyName(this.getTransportAgencyEntity().getName());
         model.setRtn(this.getRtn());
+        model.setStatus(this.getStatus());
         model.setCreatedBy(this.getCreatedBy());
         model.setModifiedBy(this.getModifiedBy());
         model.setCreatedAt(this.getCreatedAt().format(formatter)) ;
-        model.setModifiedAt(this.getModifiedAt().format(formatter));
+        model.setModifiedAt(this.getModifiedAt() == null ? "":  this.getModifiedAt().format(formatter));
         return model;
     }
 

@@ -22,13 +22,16 @@ public class UnitOfMeasurementModel {
     @Size(min = 1, max = 20, message = "size must be between 1 and 20")
     private String unitScalar;
 
-    private String createBy;
+    private String createdBy;
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
+
+    private String createdAtString;
 
     private String modifiedBy;
 
     private LocalDateTime  modifiedAt;
+    private String  modifiedAtString;
 
     @NotNull
     @Size(min = 1, max = 1, message = "size must be 1")

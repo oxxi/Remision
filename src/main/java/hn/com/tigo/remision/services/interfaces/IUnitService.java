@@ -9,8 +9,8 @@ public interface IUnitService  {
 
     List<UnitOfMeasurementModel> getAll();
     UnitOfMeasurementModel getById(Long id);
-    void update(Long id, UnitOfMeasurementModel model, String userName);
-    void add(UnitOfMeasurementModel model, String userName);
+    void update(Long id, UnitOfMeasurementModel model);
+    void add(UnitOfMeasurementModel model);
     void delete(Long id);
 
 }
