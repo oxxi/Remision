@@ -23,7 +23,7 @@ public class ReasonService implements IReasonService {
 
     @Override
     public List<ReasonModel> getAll() {
-        List<ReasonEntity> entities = this.reasonRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
+        List<ReasonEntity> entities = this.reasonRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt","id"));
         return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
     }
 
