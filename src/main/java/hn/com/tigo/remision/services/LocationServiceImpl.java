@@ -56,7 +56,7 @@ public class LocationServiceImpl implements ILocationService {
     public void update(Long id,LocationModel model) {
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
         if(entity == null) {
-            //TODO:cambiar por custom exception
+            // TODO: cambiar por custom exception
             throw new BadRequestException("No valid");
         }
         entity.setModifiedAt(LocalDateTime.now());
