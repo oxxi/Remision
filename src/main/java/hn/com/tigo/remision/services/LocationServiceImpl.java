@@ -63,7 +63,7 @@ public class LocationServiceImpl implements ILocationService {
         }
         entity.setModifiedAt(LocalDateTime.now());
         entity.setModifiedBy(model.getModifiedBy());
-        entity.setStatus(model.getStatus());
+        // entity.setStatus(model.getStatus());
         entity.setAddress(model.getFullAddress());
         entity.setShortName(Long.parseLong(model.getShortCode()));
 

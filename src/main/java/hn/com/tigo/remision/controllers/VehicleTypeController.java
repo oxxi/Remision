@@ -42,8 +42,8 @@ public class VehicleTypeController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable Long id, @Valid VehicleTypesModel mode) {
-        this.vehicleTypeService.update(id,mode,mode.getModifiedBy());
+    public ResponseEntity<Object> update(@PathVariable Long id, @Valid VehicleTypesModel model) {
+        this.vehicleTypeService.update(id,model,model.getModifiedBy());
         return ResponseEntity.ok(util.setSuccessWithoutData());
     }
 
