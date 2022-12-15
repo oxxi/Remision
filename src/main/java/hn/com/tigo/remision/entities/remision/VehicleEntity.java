@@ -22,7 +22,7 @@ public class VehicleEntity implements Serializable {
     @Column(name = "ID",insertable = false,updatable = false)
     private Long id;
 
-    @Column(name = "PLACA", length = 10, updatable = false)
+    @Column(name = "PLACA", length = 10, nullable = false)
     private String licensePlate;
 
     @Column(name = "ID_TIPO_VEHICULO", nullable = false)
@@ -78,6 +78,8 @@ public class VehicleEntity implements Serializable {
         model.setBrand(this.getBrand());
         model.setYear(this.getYear());
         model.setAgencyName(this.getTransportAgencyEntity().getName());
+        model.setCreatedBy(this.getCreatedBy());
+        model.setModifiedBy(this.getModifiedBy());
         model.setColor(this.getColor());
         model.setIdAgency(this.getIdTransportAgency());
         model.setVehicleType(this.getIdVehicleType());

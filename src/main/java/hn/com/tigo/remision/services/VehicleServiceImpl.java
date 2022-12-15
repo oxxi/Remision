@@ -61,6 +61,8 @@ public class VehicleServiceImpl implements IVehicleService {
         if(entity == null) throw new BadRequestException(String.format("%s not exist",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
+        entity.setId(model.getId());
+        entity.setLicensePlate(model.getLicensePlate());
         entity.setBrand(model.getBrand());
         entity.setColor(model.getColor());
         entity.setModel(model.getModel());

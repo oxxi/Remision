@@ -67,6 +67,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
         if(entity == null) throw new RuntimeException("cambiar por standard tigo");
 
         entity.setModifiedBy(model.getModifiedBy());
+        entity.setCreateBy(model.getCreatedBy());
         entity.setModifiedAt(LocalDateTime.now());
         entity.setDescription(model.getDescription());
 

@@ -18,8 +18,8 @@ public class VehicleModel {
     @NotNull
     private String brand;
     private String model;
-    private String year;
     @NotNull
+    private String year;
     private String agencyName;
     private String color;
     @NotNull
