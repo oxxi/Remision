@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.MotoristEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.MotoristModel;
 import hn.com.tigo.remision.repositories.remision.IMotoristRepository;
 import hn.com.tigo.remision.services.interfaces.IMotoristService;
@@ -51,8 +52,9 @@ public class MotoristServiceImpl implements IMotoristService {
     @Override
     public void update(Long id, MotoristModel model) {
         MotoristEntity entity = this.motoristRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
-        entity.setId(model.getId());
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+
         entity.setName(model.getName().toUpperCase());
         entity.setLastName(model.getLastName().toUpperCase());
         entity.setLicenseNumber(model.getLicenseNumber());
@@ -66,7 +68,7 @@ public class MotoristServiceImpl implements IMotoristService {
     @Override
     public void delete(long id) {
         MotoristEntity entity = this.motoristRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         this.motoristRepository.delete(entity);
     }

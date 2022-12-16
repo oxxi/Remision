@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.UnitOfMeasurementEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.UnitOfMeasurementModel;
 import hn.com.tigo.remision.repositories.remision.IUnitOfMeasurementRepository;
 import hn.com.tigo.remision.services.interfaces.IUnitService;
@@ -34,7 +35,7 @@ public class UnitServiceImpl implements IUnitService {
     @Override
     public UnitOfMeasurementModel getById(Long id) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Error");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         UnitOfMeasurementModel model = new UnitOfMeasurementModel();
         model.setId(entity.getId());
@@ -51,7 +52,9 @@ public class UnitServiceImpl implements IUnitService {
     @Override
     public void update(Long id,UnitOfMeasurementModel model) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Error");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+
         entity.setNombre(model.getName());
         entity.setUnidadEscalar(model.getUnitScalar());
         entity.setEstado(model.getStatus().toUpperCase());
@@ -78,7 +81,7 @@ public class UnitServiceImpl implements IUnitService {
     @Override
     public void delete(Long id) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Error");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         this.repository.delete(entity);
     }

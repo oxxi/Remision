@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.TransportAgencyEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.TransportAgencyModel;
 import hn.com.tigo.remision.repositories.remision.ITransportAgencyRepository;
 import hn.com.tigo.remision.services.interfaces.ITransportAgencyService;
@@ -30,7 +31,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     @Override
     public TransportAgencyModel getById(Long id) {
         TransportAgencyEntity entity = this.transportAgencyRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -52,7 +53,9 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     @Override
     public void update(Long id,TransportAgencyModel model) {
         TransportAgencyEntity entity = this.transportAgencyRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+
         entity.setName(model.getName());
         entity.setModifiedAt(LocalDateTime.now());
         entity.setModifiedBy(model.getModifiedBy());
@@ -66,7 +69,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     @Override
     public void delete(Long id) {
         TransportAgencyEntity entity = this.transportAgencyRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         this.transportAgencyRepository.delete(entity);
     }

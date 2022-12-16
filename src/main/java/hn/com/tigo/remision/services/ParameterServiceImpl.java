@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.ParameterEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.services.interfaces.IParameterService;
 import hn.com.tigo.remision.models.GeneralParameter;
 import hn.com.tigo.remision.repositories.remision.IParameterRepository;
@@ -35,7 +36,7 @@ public class ParameterServiceImpl implements IParameterService {
     public GeneralParameter getById(String name) {
 
         ParameterEntity entity = this.parameterRepository.findByParameterName(name);
-        if (entity==null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if (entity==null) throw new BadRequestException(String.format("Record with id %s is not valid",name));
         return entity.entityToModel();
     }
 
@@ -53,7 +54,8 @@ public class ParameterServiceImpl implements IParameterService {
     @Override
     public void update(String name,GeneralParameter model) {
         ParameterEntity entity = this.parameterRepository.findByParameterName(name);
-        if (entity==null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if (entity==null) throw new BadRequestException(String.format("Record with id %s is not valid",name));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setParameterValue(model.getValue());
         entity.setDescription(model.getDescription());

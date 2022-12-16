@@ -33,6 +33,6 @@ public class LogServiceImpl implements ILogService {
 
     @Override
     public void insertLog(LogEntity entity) {
-
+        this.logRepository.add(entity);
     }
 }

@@ -5,15 +5,12 @@ import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.LocationModel;
 import hn.com.tigo.remision.repositories.remision.ILocationRepository;
 import hn.com.tigo.remision.services.interfaces.ILocationService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class LocationServiceImpl implements ILocationService {
 
 
@@ -44,6 +41,10 @@ public class LocationServiceImpl implements ILocationService {
 
     @Override
     public void add(LocationModel model) {
+
+        LocationEntity existEntity=this.locationRepository.findByshortName(model.getShortCode());
+        if(existEntity != null) throw new BadRequestException(String.format("shortCode %s already exist",model.getShortCode()));
+
         LocationEntity entity = new LocationEntity();
         entity.setId(-1L);//used this to avoid error of identity generation in Hibernate it's no the best way, but works in this scenario when the db already exist
         entity.setAddress(model.getFullAddress());
@@ -57,16 +58,14 @@ public class LocationServiceImpl implements ILocationService {
     @Override
     public void update(Long id,LocationModel model) {
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
-        if(entity == null) {
-            // TODO: cambiar por custom exception
-            throw new BadRequestException("No valid");
-        }
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+
         entity.setModifiedAt(LocalDateTime.now());
         entity.setModifiedBy(model.getModifiedBy());
-        // entity.setStatus(model.getStatus());
+        entity.setStatus(model.getStatus() == null ? entity.getStatus(): model.getStatus());
         entity.setAddress(model.getFullAddress());
         entity.setShortName(Long.parseLong(model.getShortCode()));
-
         this.locationRepository.saveAndFlush(entity);
     }
 
@@ -74,8 +73,7 @@ public class LocationServiceImpl implements ILocationService {
     public void delete(Long id) {
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
         if(entity == null) {
-            //TODO:cambiar por custom exception
-            throw new RuntimeException("No valid");
+            throw new BadRequestException(String.format("Record with id %s is not valid",id));
         }
         this.locationRepository.delete(entity);
     }

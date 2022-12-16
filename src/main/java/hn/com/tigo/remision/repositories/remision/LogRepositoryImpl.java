@@ -25,9 +25,9 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     @Override
     public List<LogEntity> getAll()  {
-
+        //get last 6 months records, (architect want this to avoid overload)
         JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
-        String sql = "SELECT USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP FROM LOG order by FECHA desc ";
+        String sql = "SELECT USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP FROM LOG WHERE FECHA BETWEEN ADD_MONTHS(SYSDATE,-6) AND SYSDATE  order by FECHA desc ";
         List<Map<String,Object>> executedQuery = jdbcTemplate.queryForList(sql);
         return getLogEntities(executedQuery);
 
@@ -68,6 +68,9 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     @Override
     public void add(LogEntity entity) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
+        String sql = "INSERT INTO LOG(USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP) VALUES(?,SYSDATE,?,?,?,?,?)";
+        jdbcTemplate.update(sql,entity.getUserName(),entity.getModule(),entity.getAction(),entity.getObject(),entity.getKey(),entity.getIp());
 
     }
 

@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.VehicleTypeEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.services.interfaces.IVehicleTypeService;
 import hn.com.tigo.remision.models.VehicleTypesModel;
 import hn.com.tigo.remision.repositories.remision.IVehicleTypeRepository;
@@ -38,7 +39,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public VehicleTypesModel getById(Long id) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Error cambiar por standard");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         VehicleTypesModel model = new VehicleTypesModel();
         model.setId(entity.getId());
         model.setDescription(entity.getDescription());
@@ -64,7 +65,8 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public void update(Long id, VehicleTypesModel model, String userName) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("cambiar por standard tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setModifiedBy(model.getModifiedBy());
         entity.setCreateBy(model.getCreatedBy());
@@ -77,7 +79,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public void delete(Long id) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("cambiar por standard tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         this.vehicleTypeRepository.delete(entity);
     }

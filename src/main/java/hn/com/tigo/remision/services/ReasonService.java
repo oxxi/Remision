@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.ReasonEntity;
+import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.ReasonModel;
 import hn.com.tigo.remision.repositories.remision.IReasonRepository;
 import hn.com.tigo.remision.services.interfaces.IReasonService;
@@ -30,7 +31,7 @@ public class ReasonService implements IReasonService {
     @Override
     public ReasonModel getById(Long id) {
         ReasonEntity entity= this.reasonRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("cambiar por standard tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -49,7 +50,9 @@ public class ReasonService implements IReasonService {
     @Override
     public void update(Long id, ReasonModel model) {
         ReasonEntity entity= this.reasonRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("cambiar por standard tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+
         entity.setDescription(model.getDescription());
         entity.setStatus(model.getStatus());
         entity.setModifiedAt(LocalDate.now());
@@ -60,7 +63,7 @@ public class ReasonService implements IReasonService {
     @Override
     public void delete(Long id) {
         ReasonEntity entity= this.reasonRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("cambiar por standard tigo");
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         this.reasonRepository.delete(entity);
     }
 }

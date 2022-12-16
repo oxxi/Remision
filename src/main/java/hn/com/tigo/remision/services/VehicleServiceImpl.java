@@ -33,7 +33,7 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public VehicleModel getById(Long id) {
         VehicleEntity entity = this.vehicleRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("%s not exit",id));
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -58,7 +58,7 @@ public class VehicleServiceImpl implements IVehicleService {
     public void update(Long id, VehicleModel model) {
 
         VehicleEntity entity = this.vehicleRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("%s not exist",id));
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setId(model.getId());
@@ -78,7 +78,7 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public void delete(Long id) {
         VehicleEntity entity = this.vehicleRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("%s not exist",id));
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
 
         this.vehicleRepository.delete(entity);
     }
