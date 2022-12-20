@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class ParameterServiceImpl implements IParameterService {
         ParameterEntity entity = new ParameterEntity();
         entity.setDescription(model.getDescription());
         entity.setModifiedBy(model.getModifiedBy());
-        entity.setModifiedAt(LocalDate.now());
+        entity.setModifiedAt(LocalDateTime.now());
         entity.setParameterName(model.getName());
         entity.setParameterValue(model.getValue());
         this.parameterRepository.save(entity);
@@ -60,7 +61,7 @@ public class ParameterServiceImpl implements IParameterService {
         entity.setParameterValue(model.getValue());
         entity.setDescription(model.getDescription());
         entity.setModifiedBy(model.getModifiedBy());
-        entity.setModifiedAt(LocalDate.now());
+        entity.setModifiedAt(LocalDateTime.now());
         this.parameterRepository.save(entity);
     }
 

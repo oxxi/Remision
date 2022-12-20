@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.LocationEntity;
+
 import hn.com.tigo.remision.exceptions.BadRequestException;
 import hn.com.tigo.remision.models.LocationModel;
 import hn.com.tigo.remision.repositories.remision.ILocationRepository;
@@ -8,6 +9,7 @@ import hn.com.tigo.remision.services.interfaces.ILocationService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -16,8 +18,12 @@ public class LocationServiceImpl implements ILocationService {
 
     private final ILocationRepository locationRepository;
 
+
+
+
     public LocationServiceImpl(ILocationRepository locationRepository) {
         this.locationRepository = locationRepository;
+
     }
 
 
@@ -25,7 +31,6 @@ public class LocationServiceImpl implements ILocationService {
     public List<LocationModel> getAll() {
 
        List<LocationEntity> entities = this.locationRepository.findAll();
-
        return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
     }
 
@@ -33,10 +38,8 @@ public class LocationServiceImpl implements ILocationService {
     public LocationModel getById(Long id) {
         LocationModel model = new LocationModel();
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
-        model.setFullAddress(entity.getAddress());
-        model.setId(entity.getId());
-        model.setShortCode(String.valueOf(entity.getShortName()));
-        return model;
+        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        return entity.entityToModel();
     }
 
     @Override
@@ -53,6 +56,7 @@ public class LocationServiceImpl implements ILocationService {
         entity.setStatus(model.getStatus());
         entity.setCreatedAt(LocalDateTime.now());
         this.locationRepository.save(entity);
+
     }
 
     @Override
@@ -77,4 +81,5 @@ public class LocationServiceImpl implements ILocationService {
         }
         this.locationRepository.delete(entity);
     }
+
 }

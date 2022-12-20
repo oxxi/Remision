@@ -12,7 +12,7 @@ public interface IVehicleTypeService {
 
     void add(VehicleTypesModel model);
 
-    void update(Long id, VehicleTypesModel model, String userName);
+    void update(Long id, VehicleTypesModel model);
 
     void delete(Long id);
 

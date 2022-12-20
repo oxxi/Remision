@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Table(name = "PARAMETRO_GENERAL")
@@ -33,17 +34,22 @@ public class ParameterEntity implements Serializable {
     private String modifiedBy;
 
     @Column(name = "FECHA_EDITA")
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
 
 
     public GeneralParameter entityToModel() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         GeneralParameter model = new GeneralParameter();
         model.setDescription(this.getDescription());
         model.setName(this.getParameterName());
         model.setValue(this.getParameterValue());
         model.setModifiedBy(this.getModifiedBy());
-        model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+        try{
+            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+        }catch (Exception e){
+            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatterDate));
+        }
         return model;
     }
 }

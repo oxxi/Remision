@@ -56,7 +56,7 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
             entity.setObject(String.valueOf(row.get("OBJETO")));
             entity.setModule(String.valueOf(row.get("MODULO")));
             entity.setUserName(String.valueOf(row.get("USUARIO")));
-            entity.setCreatedAt(Timestamp.valueOf(String.valueOf(row.get("FECHA"))).toLocalDateTime().toLocalDate());
+            entity.setCreatedAt(Timestamp.valueOf(String.valueOf(row.get("FECHA"))).toLocalDateTime());
             return entity;
         }).collect(Collectors.toList());
     }
@@ -68,9 +68,13 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     @Override
     public void add(LogEntity entity) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
-        String sql = "INSERT INTO LOG(USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP) VALUES(?,SYSDATE,?,?,?,?,?)";
-        jdbcTemplate.update(sql,entity.getUserName(),entity.getModule(),entity.getAction(),entity.getObject(),entity.getKey(),entity.getIp());
+        try{
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
+            String sql = "INSERT INTO LOG(USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP) VALUES(?,SYSDATE,?,?,?,?,?)";
+            jdbcTemplate.update(sql,entity.getUserName(),entity.getModule(),entity.getAction(),entity.getObject(),entity.getKey(),entity.getIp());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

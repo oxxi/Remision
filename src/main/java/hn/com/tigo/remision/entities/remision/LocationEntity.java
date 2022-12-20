@@ -47,16 +47,23 @@ public class LocationEntity implements Serializable {
 
 
     public LocationModel entityToModel() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         LocationModel model = new LocationModel();
         model.setShortCode(this.getShortName().toString());
         model.setId(this.getId());
         model.setFullAddress(this.getAddress());
         model.setCreatedBy(this.getUserCreated());
-        model.setCreatedAt(this.getCreatedAt() == null ? null :  this.getCreatedAt().format(formatter));
-        model.setModifiedBy(this.getModifiedBy());
-        model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
         model.setStatus(this.getStatus());
+        model.setModifiedBy(this.getModifiedBy());
+        try{
+            model.setCreatedAt(this.getCreatedAt() == null ? null :  this.getCreatedAt().format(formatter));
+            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+        }catch (Exception e) {
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setCreatedAt(this.getCreatedAt() == null ? null :  this.getCreatedAt().format(formatter2));
+            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter2));
+        }
+
         return model;
     }
 

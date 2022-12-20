@@ -68,8 +68,14 @@ public class TransportAgencyEntity implements Serializable {
         model.setModifiedAt(this.getModifiedAt());
         model.setStatus(this.getStatus());
         model.setRtn(this.getRtn());
-        model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
-        model.setCreatedAtString(this.getCreatedAt().format(formatter));
+        try{
+            model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+            model.setCreatedAtString(this.getCreatedAt().format(formatter));
+        }catch (Exception e) {
+            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatterDate));
+            model.setCreatedAtString(this.getCreatedAt().format(formatterDate));
+        }
         return model;
     }
 }

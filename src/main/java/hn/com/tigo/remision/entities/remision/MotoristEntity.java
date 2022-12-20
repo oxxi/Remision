@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Table(name = "TRANSPORTISTA")
@@ -37,13 +38,13 @@ public class MotoristEntity implements Serializable {
     private String createdBy;
 
     @Column(name = "FECHA_CREA")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "USUARIO_EDITA",length = 50)
     private String modifiedBy;
 
     @Column(name = "FECHA_EDITA")
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
 
     @Column(name = "ESTADO", length = 1)
     private String status;
@@ -57,7 +58,7 @@ public class MotoristEntity implements Serializable {
 
 
     public MotoristModel entityToModel() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         MotoristModel model = new MotoristModel();
         model.setId(this.getId());
         model.setName(this.getName().toUpperCase());
@@ -70,7 +71,12 @@ public class MotoristEntity implements Serializable {
         model.setCreatedBy(this.getCreatedBy());
         model.setModifiedBy(this.getModifiedBy());
         model.setCreatedAt(this.getCreatedAt().format(formatter)) ;
-        model.setModifiedAt(this.getModifiedAt() == null ? "":  this.getModifiedAt().format(formatter));
+       try{
+           model.setModifiedAt(this.getModifiedAt() == null ? "":  this.getModifiedAt().format(formatter));
+       }catch (Exception e) {
+           DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+           model.setModifiedAt(this.getModifiedAt() !=null ? this.getModifiedAt().format(formatterDate) : null);
+       }
         return model;
     }
 

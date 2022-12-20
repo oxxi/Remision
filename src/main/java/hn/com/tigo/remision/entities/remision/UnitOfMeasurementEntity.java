@@ -58,7 +58,14 @@ public class UnitOfMeasurementEntity implements Serializable {
         model.setCreatedAt(this.getFechaCreado());
         model.setCreatedAtString(this.getFechaCreado().format(formatter));
         model.setModifiedAt(this.getFechaEdita());
-        model.setModifiedAtString(this.getFechaEdita()== null ? null : this.getFechaEdita().format(formatter));
+
+        try{
+            model.setModifiedAtString(this.getFechaEdita()== null ? null : this.getFechaEdita().format(formatter));
+        }catch (Exception e){
+            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setModifiedAtString(this.getFechaEdita()== null ? null : this.getFechaEdita().format(formatterDate));
+        }
+
         return model;
     }
 

@@ -1,10 +1,17 @@
 package hn.com.tigo.remision.filters;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import hn.com.tigo.remision.models.AuthModel;
+import hn.com.tigo.remision.models.GeneralError;
+import hn.com.tigo.remision.models.GeneralResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.stereotype.Component;
 import javax.servlet.FilterChain;
@@ -12,12 +19,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
-//@Component
+@Component
 public class AuthValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -27,47 +33,56 @@ public class AuthValidateFilter extends OncePerRequestFilter {
             insertLog(cachedBodyHttpServletRequest);
             filterChain.doFilter(cachedBodyHttpServletRequest,response);
         }catch (Exception ex) {
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            GeneralResponse customResponse =  new GeneralResponse();
+            GeneralError customErrors = new GeneralError();
+            List<GeneralError> errorList = new ArrayList<>();
+            customResponse.setCode(-1L);
+            customResponse.setDescription("UNAUTHORIZED");
+            customErrors.setCode("-1");
+            customErrors.setUserMessage(ex.getMessage());
+
+            errorList.add(customErrors);
+
+            customResponse.setErrors(errorList);
+            String objectToString = gson.toJson(customResponse);
             response.setContentType("application/json");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Access-Control-Allow-Origin", "*");
-            //TODO: se necesita hacer el set del objeto de respuesta general
-            response.getWriter().write("Settear objeto error: "+ ex.getMessage());
+            response.getWriter().write(objectToString);
         }
     }
 
 
     private void insertLog(CachedBodyHttpServletRequest request)  {
-        List<String> methods = Arrays.asList("POST","PUT");
+
+     try{
+         AuthModel auth = new AuthModel();
+         auth.setUserName(validateHeaderAuth(request));
+         auth.setIp(getClientIp(request));
+         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(auth,auth);
+         SecurityContextHolder.getContext().setAuthentication(authentication);
+     }catch (Exception e) {
+         e.printStackTrace();
+     }
+
+    }
+
+    private String validateHeaderAuth(HttpServletRequest request) {
         try{
-            String body="";
-
-            if(methods.contains(request.getMethod().toUpperCase())) {
-                body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-                JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
-                String userField = request.getMethod().equalsIgnoreCase("POST") ? "createdBy": "modifiedBy";
-
-                String a = jsonObject.get(userField).getAsString();
-                log.info("{}",jsonObject);
-                log.info("user field: {}",userField);
-            }
-
-            if ("GET".equalsIgnoreCase(request.getMethod())){
-
-            }
-
-            if("DELETE".equalsIgnoreCase(request.getMethod())) {
-
-            }
-
-
-
-        }catch (IOException |  RuntimeException e) {
-            e.printStackTrace();
-        }catch (Exception ie) {
-            ie.printStackTrace();
+            String header = request.getHeader("Authorization");
+            return header == null? "ERROR_TEST": header;
+        }catch (Exception e) {
+            return "ERROR_USER_TEST";
         }
+    }
 
-
+    private String getClientIp(HttpServletRequest request){
+        try{
+            return request.getHeader("X-FORWARDED-FOR") == null ? request.getRemoteAddr() :request.getHeader("X-FORWARDED-FOR");
+        }catch (Exception e) {
+            return "0.0.0.0";
+        }
     }
 }

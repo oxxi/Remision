@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.services;
 
 import hn.com.tigo.remision.entities.remision.LogEntity;
+import hn.com.tigo.remision.models.LogInsertModel;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.models.LogModel;
 import hn.com.tigo.remision.repositories.remision.LogRepositoryImpl;
@@ -32,7 +33,27 @@ public class LogServiceImpl implements ILogService {
     }
 
     @Override
-    public void insertLog(LogEntity entity) {
+    public void insertLog(LogInsertModel model, String ip) {
+
+        LogEntity entity = new LogEntity();
+        entity.setUserName(model.getUser());
+        entity.setModule(model.getModule());
+        entity.setAction(model.getAction());
+        entity.setObject(model.getObject());
+        entity.setKey(model.getKey());
+        entity.setIp(ip);
+        this.logRepository.add(entity);
+    }
+
+    @Override
+    public void insertLog(String user, String module, String action, String object, String key, String ip) {
+        LogEntity entity = new LogEntity();
+        entity.setUserName(user);
+        entity.setModule(module);
+        entity.setAction(module);
+        entity.setObject(object);
+        entity.setKey(key);
+        entity.setIp(ip);
         this.logRepository.add(entity);
     }
 }

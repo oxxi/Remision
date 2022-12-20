@@ -23,32 +23,15 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public List<VehicleTypesModel> getAll() {
         List<VehicleTypeEntity> entities = this.vehicleTypeRepository.findAll(Sort.by(Sort.Direction.ASC,"id"));
-        return entities.stream().map(e->{
-            VehicleTypesModel model = new VehicleTypesModel();
-            model.setId(e.getId());
-            model.setDescription(e.getDescription());
-            model.setStatus(String.valueOf(e.getStatus()));
-            model.setCreatedBy(e.getCreateBy());
-            model.setModifiedBy(e.getModifiedBy());
-            model.setModifiedAt(e.getModifiedAt());
-            model.setCreatedAt(e.getCreatedAt());
-            return model;
-        }).collect(Collectors.toList());
+        return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
     }
 
     @Override
     public VehicleTypesModel getById(Long id) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
         if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
-        VehicleTypesModel model = new VehicleTypesModel();
-        model.setId(entity.getId());
-        model.setDescription(entity.getDescription());
-        model.setStatus(String.valueOf(entity.getStatus()));
-        model.setCreatedBy(entity.getCreateBy());
-        model.setModifiedBy(entity.getModifiedBy());
-        model.setModifiedAt(entity.getModifiedAt());
-        model.setCreatedAt(entity.getCreatedAt());
-        return model;
+        return entity.entityToModel();
+
     }
 
     @Override
@@ -63,7 +46,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     }
 
     @Override
-    public void update(Long id, VehicleTypesModel model, String userName) {
+    public void update(Long id, VehicleTypesModel model) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
         if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");

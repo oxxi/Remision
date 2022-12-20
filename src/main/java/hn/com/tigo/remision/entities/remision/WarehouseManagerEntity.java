@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Table(name = "ENCARGADO_BODEGA")
@@ -32,17 +33,17 @@ public class WarehouseManagerEntity implements Serializable {
     @Column(name = "USUARIO_CREA", length = 50)
     private String createdBy;
     @Column(name = "FECHA_CREA")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @Column(name = "USUARIO_EDITA")
     private String modifiedBy;
     @Column(name = "FECHA_EDITA")
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
     @Column(name = "ESTADO", length = 1)
     private String status;
 
 
     public WarehouseManagerModel entityToModel(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         WarehouseManagerModel model = new WarehouseManagerModel();
         model.setId(this.getId());
         model.setName(this.getName());
@@ -53,8 +54,15 @@ public class WarehouseManagerEntity implements Serializable {
         model.setModifiedBy(this.getModifiedBy());
         model.setModifiedAt(this.getModifiedAt());
         model.setStatus(this.getStatus());
-        model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
-        model.setCreatedAtString(this.getCreatedAt().format(formatter));
+        try {
+            model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
+            model.setCreatedAtString(this.getCreatedAt().format(formatter));
+        }catch (Exception e) {
+            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setModifiedAtString(this.getModifiedAt() !=null ? this.getModifiedAt().format(formatterDate) : null);
+            model.setCreatedAtString(this.getCreatedAt().format(formatterDate));
+        }
+
 
         return model;
     }

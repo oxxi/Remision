@@ -8,7 +8,7 @@ import hn.com.tigo.remision.services.interfaces.IMotoristService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +44,7 @@ public class MotoristServiceImpl implements IMotoristService {
         entity.setIdTransportAgency(model.getIdTransportAgency());
         entity.setRtn(model.getRtn());
         entity.setCreatedBy(model.getCreatedBy());
-        entity.setCreatedAt(LocalDate.now());
+        entity.setCreatedAt(LocalDateTime.now());
         entity.setStatus(model.getStatus());
         this.motoristRepository.save(entity);
     }
@@ -60,7 +60,7 @@ public class MotoristServiceImpl implements IMotoristService {
         entity.setLicenseNumber(model.getLicenseNumber());
         entity.setIdTransportAgency(model.getIdTransportAgency());
         entity.setRtn(model.getRtn());
-        entity.setModifiedAt(LocalDate.now());
+        entity.setModifiedAt(LocalDateTime.now());
         entity.setModifiedBy(model.getModifiedBy());
         this.motoristRepository.save(entity);
     }

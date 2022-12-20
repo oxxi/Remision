@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,7 @@ public class ReasonService implements IReasonService {
         entity.setDescription(model.getDescription());
         entity.setStatus(model.getStatus());
         entity.setCreatedBy(model.getCreatedBy());
-        entity.setCreatedAt(LocalDate.now());
+        entity.setCreatedAt(LocalDateTime.now());
 
         this.reasonRepository.save(entity);
     }
@@ -55,7 +56,7 @@ public class ReasonService implements IReasonService {
 
         entity.setDescription(model.getDescription());
         entity.setStatus(model.getStatus());
-        entity.setModifiedAt(LocalDate.now());
+        entity.setModifiedAt(LocalDateTime.now());
         entity.setModifiedBy(model.getModifiedBy());
         this.reasonRepository.save(entity);
     }

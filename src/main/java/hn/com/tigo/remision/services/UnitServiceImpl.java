@@ -36,17 +36,7 @@ public class UnitServiceImpl implements IUnitService {
     public UnitOfMeasurementModel getById(Long id) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
         if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
-
-        UnitOfMeasurementModel model = new UnitOfMeasurementModel();
-        model.setId(entity.getId());
-        model.setName(entity.getNombre());
-        model.setStatus(String.valueOf(entity.getEstado()));
-        model.setUnitScalar(entity.getUnidadEscalar());
-        model.setModifiedBy(entity.getUsuarioEdita());
-        model.setCreatedBy(entity.getUsuarioCrea());
-        model.setCreatedAt(entity.getFechaCreado());
-        model.setModifiedAt(entity.getFechaEdita());
-        return model;
+        return entity.entityToModel();
     }
 
     @Override

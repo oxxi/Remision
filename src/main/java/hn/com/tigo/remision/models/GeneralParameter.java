@@ -18,7 +18,8 @@ public class GeneralParameter {
     private String description;
     @NonNull
     private String modifiedBy;
-
     private String modifiedAt;
+
+    private String createdBy;
 
 }

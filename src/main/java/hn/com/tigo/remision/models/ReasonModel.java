@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,13 +21,13 @@ public class ReasonModel {
     @NotNull
     private String createdBy;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     private String createdAtString;
 
     private String modifiedBy;
 
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
 
     private String modifiedAtString;
     @NotNull

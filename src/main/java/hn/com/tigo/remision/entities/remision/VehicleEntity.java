@@ -70,7 +70,7 @@ public class VehicleEntity implements Serializable {
 
 
     public VehicleModel entityToModel() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         VehicleModel model = new VehicleModel();
         model.setId(this.getId());
         model.setModel(this.getModel());
@@ -88,8 +88,15 @@ public class VehicleEntity implements Serializable {
         model.setCreatedAt(this.getCreatedAt());
         model.setModifiedAt(this.getModifiedAt());
         model.setStatus(this.getStatus());
-        model.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatter));
-        model.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatter));
+        try
+        {
+            model.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatter));
+            model.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatter));
+        }catch (Exception e){
+            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            model.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatterDate));
+            model.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatterDate));
+        }
 
         return  model;
     }

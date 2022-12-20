@@ -8,6 +8,7 @@ import hn.com.tigo.remision.services.interfaces.IWarehouseManagerService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,7 @@ public class WarehouseManagerService implements IWarehouseManagerService {
         entity.setLastName(model.getLastName());
         entity.setDni(model.getDni());
         entity.setCreatedBy(model.getCreatedBy());
-        entity.setCreatedAt(LocalDate.now());
+        entity.setCreatedAt(LocalDateTime.now());
         entity.setStatus(model.getStatus());
         this.managerRepository.save(entity);
     }
@@ -58,7 +59,7 @@ public class WarehouseManagerService implements IWarehouseManagerService {
         entity.setDni(model.getDni());
         entity.setStatus(model.getStatus() == null ? entity.getStatus():model.getStatus());
         entity.setModifiedBy(model.getModifiedBy());
-        entity.setModifiedAt(LocalDate.now());
+        entity.setModifiedAt(LocalDateTime.now());
         this.managerRepository.save(entity);
     }
 
