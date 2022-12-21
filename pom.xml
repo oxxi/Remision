@@ -22,6 +22,15 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
+        <sonar.coverage.exclusions>
+            hn/com/tigo/remision/exceptions/*.java,
+            hn/com/tigo/remision/filters/*.java,
+        </sonar.coverage.exclusions>
+        <sonar.exclusions>
+            **/exceptions/*.java,
+            **/filters/*.java,
+            **/entities/*.java
+        </sonar.exclusions>
     </properties>
     <dependencies>
         <!--SONAR-->
@@ -143,12 +152,15 @@
                 <configuration>
                     <excludes>
                         <exclude>${project.basedir}/main/java/hn/com/tigo/remision/exception/*.class</exclude>
+                        <exclude>src/main/java/hn/com/tigo/remision/filters/*.class</exclude>
+                        <exclude>src/main/java/hn/com/tigo/remision/entities/*.class</exclude>
+                        <exclude>src/main/java/hn/com/tigo/remision/models/*.class</exclude>
                         <exclude>${project.basedir}/main/java/hn/com/tigo/remision/filters/*.class</exclude>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/entities/*.class</exclude>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/models/*.class</exclude>
                         <exclude>${project.basedir}/main/java/hn/com/tigo/remision/RemisionApplication.class</exclude>
                         <exclude>${project.basedir}/main/java/hn/com/tigo/remision/ServletInitializer.class</exclude>
-<!--                        <exclude>snmaddula/app/exception/*.class</exclude>-->
-<!--                        <exclude>snmaddula/app/filter/*.class</exclude>-->
-<!--                        <exclude>snmaddula/app/App.class</exclude>-->
+
                     </excludes>
                 </configuration>
             </plugin>

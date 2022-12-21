@@ -7,6 +7,7 @@ import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IVehicleService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/vehiculos")
+@Slf4j
 public class VehicleController {
 
     private final IVehicleService vehicleService;
@@ -68,7 +70,7 @@ public class VehicleController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Vehículos"),action, "vehículos",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
     }
 }

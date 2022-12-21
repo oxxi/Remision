@@ -2,7 +2,6 @@ package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.MotoristModel;
-import hn.com.tigo.remision.services.MotoristServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IMotoristService;
 import hn.com.tigo.remision.utils.ModuleEnum;

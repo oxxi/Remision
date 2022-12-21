@@ -2,11 +2,11 @@ package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.TransportAgencyModel;
-import hn.com.tigo.remision.services.TransportAgencyServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.ITransportAgencyService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/agenciastransporte")
+@Slf4j
 public class TransportAgencyController {
 
     private final ITransportAgencyService agencyService;
@@ -69,7 +70,7 @@ public class TransportAgencyController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"agencias de transporte"),action, "agencia de transporte",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+           log.info(e.getMessage());
         }
     }
 }

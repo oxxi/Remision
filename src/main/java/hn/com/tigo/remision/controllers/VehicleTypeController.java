@@ -2,11 +2,11 @@ package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.VehicleTypesModel;
-import hn.com.tigo.remision.services.VehicleTypeServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IVehicleTypeService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/tipovehiculos")
+@Slf4j
 public class VehicleTypeController {
 
     private final IVehicleTypeService vehicleTypeService;
@@ -71,7 +72,7 @@ public class VehicleTypeController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Tipo de Vehículos"),action, "Tipo de Vehículo",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+           log.info(e.getMessage());
         }
     }
 }

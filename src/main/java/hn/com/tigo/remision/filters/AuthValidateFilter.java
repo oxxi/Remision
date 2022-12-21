@@ -47,7 +47,6 @@ public class AuthValidateFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setCharacterEncoding("UTF-8");
-            response.setHeader("Access-Control-Allow-Origin", "*");
             response.getWriter().write(objectToString);
         }
     }
@@ -62,7 +61,7 @@ public class AuthValidateFilter extends OncePerRequestFilter {
          UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(auth,auth);
          SecurityContextHolder.getContext().setAuthentication(authentication);
      }catch (Exception e) {
-         e.printStackTrace();
+        log.info(e.getMessage());
      }
 
     }

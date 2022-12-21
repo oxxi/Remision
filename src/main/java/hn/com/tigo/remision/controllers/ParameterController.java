@@ -6,6 +6,7 @@ import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IParameterService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/parametros")
+@Slf4j
 public class ParameterController {
 
     private final IParameterService parameterService;
@@ -64,7 +66,7 @@ public class ParameterController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Parámetros Generales"),action, "Parámetro",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
     }
 }

@@ -2,7 +2,6 @@ package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.LocationModel;
-import hn.com.tigo.remision.services.LocationServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILocationService;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.utils.ModuleEnum;
@@ -72,7 +71,7 @@ public class LocationController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Ubicaciones"),action, "Ubicación",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
     }
 }

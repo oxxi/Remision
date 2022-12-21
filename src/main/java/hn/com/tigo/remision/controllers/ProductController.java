@@ -1,7 +1,6 @@
 package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.ProductModel;
-import hn.com.tigo.remision.services.ProductServiceImpl;
 import hn.com.tigo.remision.services.interfaces.IProductService;
 import hn.com.tigo.remision.utils.Util;
 import lombok.extern.slf4j.Slf4j;
