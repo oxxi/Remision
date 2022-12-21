@@ -1,14 +1,13 @@
 package hn.com.tigo.remision.models;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class MotoristModel {
 
     private Long id;

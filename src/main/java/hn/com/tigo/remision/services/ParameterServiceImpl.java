@@ -8,7 +8,6 @@ import hn.com.tigo.remision.repositories.remision.IParameterRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class ParameterServiceImpl implements IParameterService {
     public List<GeneralParameter> getAll() {
 
        List<ParameterEntity> entities = this.parameterRepository.findAll(Sort.by(Sort.Direction.DESC,"modifiedAt"));
-       return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+       return entities.stream().map(ParameterEntity::entityToModel).collect(Collectors.toList());
 
     }
 
@@ -37,7 +36,7 @@ public class ParameterServiceImpl implements IParameterService {
     public GeneralParameter getById(String name) {
 
         ParameterEntity entity = this.parameterRepository.findByParameterName(name);
-        if (entity==null) throw new BadRequestException(String.format("Record with id %s is not valid",name));
+        if (entity==null) throw new BadRequestException(String.format("Error get, Record with id %s is not valid",name));
         return entity.entityToModel();
     }
 
@@ -55,8 +54,11 @@ public class ParameterServiceImpl implements IParameterService {
     @Override
     public void update(String name,GeneralParameter model) {
         ParameterEntity entity = this.parameterRepository.findByParameterName(name);
-        if (entity==null) throw new BadRequestException(String.format("Record with id %s is not valid",name));
-        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+        if (entity==null) throw new BadRequestException(String.format("Error update,Record with id %s is not valid",name));
+
+        if(model.getModifiedBy().trim().isEmpty()) {
+            throw new BadRequestException("Field Modified by is required");
+        }
 
         entity.setParameterValue(model.getValue());
         entity.setDescription(model.getDescription());

@@ -4,7 +4,7 @@ package hn.com.tigo.remision.controllers;
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.LogInsertModel;
 import hn.com.tigo.remision.models.LogModel;
-import hn.com.tigo.remision.services.LogServiceImpl;
+import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.utils.Util;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ import java.util.Optional;
 @RequestMapping("/log")
 public class LogController {
 
-    private final LogServiceImpl logService;
+    private final ILogService logService;
     private final Util util;
-    public LogController(LogServiceImpl logService) {
+    public LogController(ILogService logService) {
         this.logService = logService;
         this.util = new Util();
     }
@@ -48,8 +48,7 @@ public class LogController {
             AuthModel principal = (AuthModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return principal.getIp();
         }catch (Exception e) {
-            e.printStackTrace();
-            return "ERRORUSER";
+            return "0.0.0.0";
         }
     }
 

@@ -3,8 +3,6 @@ package hn.com.tigo.remision.filters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.GeneralError;
 import hn.com.tigo.remision.models.GeneralResponse;

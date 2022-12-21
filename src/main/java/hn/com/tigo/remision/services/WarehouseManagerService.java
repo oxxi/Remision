@@ -7,7 +7,6 @@ import hn.com.tigo.remision.repositories.remision.IWarehouseManagerRepository;
 import hn.com.tigo.remision.services.interfaces.IWarehouseManagerService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,13 +24,13 @@ public class WarehouseManagerService implements IWarehouseManagerService {
     @Override
     public List<WarehouseManagerModel> getAll() {
         List<WarehouseManagerEntity> entities = this.managerRepository.findAll();
-        return entities.stream().map(x->x.entityToModel()).collect(Collectors.toList());
+        return entities.stream().map(WarehouseManagerEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public WarehouseManagerModel getById(Long id) {
         WarehouseManagerEntity entity = this.managerRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get, Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -51,13 +50,12 @@ public class WarehouseManagerService implements IWarehouseManagerService {
     @Override
     public void update(Long id, WarehouseManagerModel model) {
         WarehouseManagerEntity entity = this.managerRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setName(model.getName());
         entity.setLastName(model.getLastName());
         entity.setDni(model.getDni());
-        entity.setStatus(model.getStatus() == null ? entity.getStatus():model.getStatus());
         entity.setModifiedBy(model.getModifiedBy());
         entity.setModifiedAt(LocalDateTime.now());
         this.managerRepository.save(entity);

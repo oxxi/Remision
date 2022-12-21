@@ -1,12 +1,12 @@
 package hn.com.tigo.remision.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class LogModel {
 
 	private String userName;

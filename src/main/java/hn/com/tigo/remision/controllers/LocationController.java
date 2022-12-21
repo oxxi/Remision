@@ -3,6 +3,7 @@ package hn.com.tigo.remision.controllers;
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.LocationModel;
 import hn.com.tigo.remision.services.LocationServiceImpl;
+import hn.com.tigo.remision.services.interfaces.ILocationService;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
@@ -19,12 +20,12 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class LocationController {
 
-    private final LocationServiceImpl locationService;
+    private final ILocationService locationService;
     private final Util util;
     private final ILogService logService;
 
 
-    public LocationController(LocationServiceImpl locationService, ILogService logRepository) {
+    public LocationController(ILocationService locationService, ILogService logRepository) {
         this.locationService = locationService;
         this.logService = logRepository;
         this.util = new Util();
@@ -33,27 +34,27 @@ public class LocationController {
     @GetMapping()
     public ResponseEntity<Object> getAll() {
 
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), null));
         List<LocationModel> listModel =  this.locationService.getAll();
         return ResponseEntity.ok(this.util.setSuccessResponse(listModel));
     }
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), String.valueOf(id)));
         LocationModel model = this.locationService.getById(id);
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody LocationModel model) {
         this.locationService.add(model);
-        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.Action_Create.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.CREATE.getDescription(), null));
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody LocationModel model) {
 
-        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.Action_Update.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         this.locationService.update(id,model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
@@ -69,7 +70,7 @@ public class LocationController {
         try{
             AuthModel principal = (AuthModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(userName !=null) principal.setUserName(userName);
-            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.Module.getDescription(),"Ubicaciones"),action, "Ubicación",key,principal.getIp());
+            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Ubicaciones"),action, "Ubicación",key,principal.getIp());
         }catch (Exception e) {
             e.printStackTrace();
         }

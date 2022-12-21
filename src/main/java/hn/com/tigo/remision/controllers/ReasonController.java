@@ -4,6 +4,7 @@ import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.ReasonModel;
 import hn.com.tigo.remision.services.ReasonService;
 import hn.com.tigo.remision.services.interfaces.ILogService;
+import hn.com.tigo.remision.services.interfaces.IReasonService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,11 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/motivos")
 public class ReasonController {
 
-    private final ReasonService reasonService;
+    private final IReasonService reasonService;
     private final Util util;
     private final ILogService logService;
 
-    public ReasonController(ReasonService reasonService, ILogService logService) {
+    public ReasonController(IReasonService reasonService, ILogService logService) {
         this.reasonService = reasonService;
         this.logService = logService;
 
@@ -32,28 +33,28 @@ public class ReasonController {
 
     @GetMapping()
     public ResponseEntity<Object> getAll() {
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), null));
         List<ReasonModel> models = this.reasonService.getAll();
         return ResponseEntity.ok(this.util.setSuccessResponse(models));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id){
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), String.valueOf(id)));
         ReasonModel model = this.reasonService.getById(id);
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
 
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody ReasonModel model){
-        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.Action_Create.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.CREATE.getDescription(), null));
         this.reasonService.add(model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody ReasonModel model){
-        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.Action_Update.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         this.reasonService.update(id,model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
@@ -69,7 +70,7 @@ public class ReasonController {
         try{
             AuthModel principal = (AuthModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(userName !=null) principal.setUserName(userName);
-            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.Module.getDescription(),"Motivos"),action, "Motivo",key,principal.getIp());
+            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Motivos"),action, "Motivo",key,principal.getIp());
         }catch (Exception e) {
             e.printStackTrace();
         }

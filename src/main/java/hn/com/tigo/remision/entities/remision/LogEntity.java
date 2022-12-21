@@ -3,11 +3,11 @@ package hn.com.tigo.remision.entities.remision;
 import hn.com.tigo.remision.models.LogModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "LOG")
 @Getter
 @Setter
+@Slf4j
 public class LogEntity implements Serializable {
 
     @Column(name = "USUARIO", length = 50)
@@ -55,7 +56,7 @@ public class LogEntity implements Serializable {
         try{
             model.setTime(this.getCreatedAt()!=null ? this.getCreatedAt().format(formatterTime) : null );
         }catch (Exception e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         return model;
     }

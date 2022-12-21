@@ -10,9 +10,9 @@ public interface ICustomRepository<T,K> {
     List<T> getAllByRange(LocalDate ini, LocalDate end);
     T getBy(String param);
     void add(T entity);
-    void update(T entity);
-    void delete(Long id);
-
+//    void update(T entity);
+//    void delete(Long id);
+    List<T> getBy(K param);
 
 
 }

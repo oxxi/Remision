@@ -25,13 +25,13 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     public List<TransportAgencyModel> getAll() {
 
        List<TransportAgencyEntity> entities = this.transportAgencyRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
-       return entities.stream().map(e-> e.entityToModel()).collect(Collectors.toList());
+       return entities.stream().map(TransportAgencyEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public TransportAgencyModel getById(Long id) {
         TransportAgencyEntity entity = this.transportAgencyRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -53,7 +53,7 @@ public class TransportAgencyServiceImpl implements ITransportAgencyService {
     @Override
     public void update(Long id,TransportAgencyModel model) {
         TransportAgencyEntity entity = this.transportAgencyRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setName(model.getName());

@@ -26,10 +26,10 @@ public class LogServiceImpl implements ILogService {
         List<LogEntity> entities;
         if (ini.isPresent() && end.isPresent()) {
           entities =  this.logRepository.getAllByRange(ini.get(), end.get());
-          return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+          return entities.stream().map(LogEntity::entityToModel).collect(Collectors.toList());
         }
         entities = this.logRepository.getAll();
-        return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+        return entities.stream().map(LogEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override

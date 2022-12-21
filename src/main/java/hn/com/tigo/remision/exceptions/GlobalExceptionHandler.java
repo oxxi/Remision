@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class GlobalException  extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final Util util;
 
-    public GlobalException() {
+    public GlobalExceptionHandler() {
         this.util = new Util();
     }
 
@@ -51,15 +51,7 @@ public class GlobalException  extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         GeneralResponse response = new GeneralResponse();
-       // List<GeneralError> errorsList = new ArrayList<>();
-//        GeneralErrors generalErrors = new GeneralErrors();
-//        GeneralResponseModel customResponse =  new GeneralResponseModel();
-//        generalErrors.setCode("-1");
-//        generalErrors.setUserMessage("formatted or mandatory fields are missing in the payload");
-//        errorsList.add(generalErrors);
           response.setCode(-1L);
-//        customResponse.setErrors(errorsList);
-
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

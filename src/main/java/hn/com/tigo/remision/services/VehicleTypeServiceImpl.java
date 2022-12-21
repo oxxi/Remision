@@ -23,13 +23,13 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public List<VehicleTypesModel> getAll() {
         List<VehicleTypeEntity> entities = this.vehicleTypeRepository.findAll(Sort.by(Sort.Direction.ASC,"id"));
-        return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+        return entities.stream().map(VehicleTypeEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public VehicleTypesModel getById(Long id) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get, Record with id %s is not valid",id));
         return entity.entityToModel();
 
     }
@@ -48,7 +48,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Override
     public void update(Long id, VehicleTypesModel model) {
         VehicleTypeEntity entity = this.vehicleTypeRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setModifiedBy(model.getModifiedBy());

@@ -28,21 +28,21 @@ public class UnitServiceImpl implements IUnitService {
     public List<UnitOfMeasurementModel> getAll() {
 
       List<UnitOfMeasurementEntity> entities= this.repository.findAll(Sort.by(Sort.Direction.DESC,"id"));
-      return entities.stream().map(x->x.entityToModel()).collect(Collectors.toList());
+      return entities.stream().map(UnitOfMeasurementEntity::entityToModel).collect(Collectors.toList());
 
     }
 
     @Override
     public UnitOfMeasurementModel getById(Long id) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get, Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
     @Override
     public void update(Long id,UnitOfMeasurementModel model) {
         UnitOfMeasurementEntity entity =this.repository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setNombre(model.getName());

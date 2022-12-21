@@ -4,13 +4,13 @@ package hn.com.tigo.remision.entities.remision;
 import hn.com.tigo.remision.models.GeneralParameter;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Getter
 @Setter
+@Slf4j
 public class ParameterEntity implements Serializable {
 
     @Id
@@ -47,8 +48,7 @@ public class ParameterEntity implements Serializable {
         try{
             model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
         }catch (Exception e){
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatterDate));
+           log.info(e.getMessage());
         }
         return model;
     }

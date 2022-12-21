@@ -1,6 +1,5 @@
 package hn.com.tigo.remision.services.interfaces;
 
-import hn.com.tigo.remision.entities.remision.LogEntity;
 import hn.com.tigo.remision.models.LogInsertModel;
 import hn.com.tigo.remision.models.LogModel;
 

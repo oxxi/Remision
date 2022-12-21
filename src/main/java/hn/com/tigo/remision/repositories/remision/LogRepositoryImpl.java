@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +48,7 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     private List<LogEntity> getLogEntities(List<Map<String, Object>> executedQuery) {
 
-        if(executedQuery.isEmpty()) return null;
+        if(executedQuery.isEmpty()) return Collections.emptyList();
 
         return executedQuery.stream().map(row->{
             LogEntity entity = new LogEntity();
@@ -78,14 +80,11 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     }
 
-    @Override
-    public void update(LogEntity entity) {
 
-    }
 
     @Override
-    public void delete(Long id) {
-
+    public List<LogEntity> getBy(Long param) {
+       return new ArrayList<>();
     }
 
 }

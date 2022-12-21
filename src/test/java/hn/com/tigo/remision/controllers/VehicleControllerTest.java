@@ -1,19 +1,14 @@
 package hn.com.tigo.remision.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hn.com.tigo.remision.models.LocationModel;
-
-import hn.com.tigo.remision.services.LocationServiceImpl;
-
-import hn.com.tigo.remision.services.interfaces.ILocationService;
+import hn.com.tigo.remision.models.UnitOfMeasurementModel;
+import hn.com.tigo.remision.models.VehicleModel;
 import hn.com.tigo.remision.services.interfaces.ILogService;
+import hn.com.tigo.remision.services.interfaces.IVehicleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,23 +18,23 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@WebMvcTest({LocationController.class})
+@WebMvcTest({VehicleController.class})
 @ExtendWith(MockitoExtension.class)
-class LocationControllerTest {
-
+class VehicleControllerTest {
 
     private MockMvc mockMvc;
+
     @MockBean
-    ILocationService locationService;
+    IVehicleService vehicleService;
 
     @MockBean
     ILogService logService;
@@ -53,38 +48,17 @@ class LocationControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @Test
-    void getAll_When_isOk() throws Exception {
-
-    }
-
-    @Test
-    void getAll_when_is_empty() throws Exception {
-
-        when(locationService.getAll()).thenReturn(null);
-        mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json("{}")
-                ).andExpect(jsonPath("$.data").isEmpty());
-
-
-    }
-
-
 
     @Test
     void getAll() throws Exception {
-        List<LocationModel> locationModelList = Arrays.asList(
-                new LocationModel(1L,"ShortCode1","full address","","","","",""),
-                new LocationModel(2L,"ShortCode2","full address 2","","","","","")
+        List<VehicleModel> ModelList = Arrays.asList(
+                new VehicleModel(1L,"a","a","a","a","a","a",1L,1L,"","",LocalDateTime.now(),"",LocalDateTime.now(),"","A",null,null),
+                new VehicleModel(2L,"a","a","a","a","a","a",2L,2L,"","",LocalDateTime.now(),"",LocalDateTime.now(),"","A",null,null)
         );
 
-
-        when(locationService.getAll()).thenReturn(locationModelList);
+        when(vehicleService.getAll()).thenReturn(ModelList);
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion"))
+                        MockMvcRequestBuilders.get("/vehiculos"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}")
@@ -93,10 +67,11 @@ class LocationControllerTest {
 
     @Test
     void getById() throws Exception {
-        when(locationService.getById(1L)).thenReturn( new LocationModel(1L,"ShortCode1","full address","","","","",""));
+
+        when(vehicleService.getById(1L)).thenReturn(new VehicleModel(1L,"a","a","a","a","a","a",2L,2L,"","",LocalDateTime.now(),"",LocalDateTime.now(),"","A",null,null));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion/1"))
+                        MockMvcRequestBuilders.get("/vehiculos/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}"))
@@ -106,21 +81,10 @@ class LocationControllerTest {
 
     @Test
     void add() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","","","A");
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post("/ubicacion/add")
-                                .content(objectMapper.writeValueAsString(model))
-                                .contentType(MediaType.APPLICATION_JSON)
-                    )
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
+        VehicleModel model =new VehicleModel(1L,"a","a","a","a","a","a",2L,2L,"","",LocalDateTime.now(),"",LocalDateTime.now(),"","A",null,null);
 
-    @Test
-    void update() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","Test","","A");
         mockMvc.perform(
-                        MockMvcRequestBuilders.put("/ubicacion/update/1")
+                        MockMvcRequestBuilders.post("/vehiculos/add")
                                 .content(objectMapper.writeValueAsString(model))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -129,15 +93,26 @@ class LocationControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    void update() throws Exception{
+        VehicleModel model =new VehicleModel(1L,"a","a","a","a","a","a",2L,2L,"","",LocalDateTime.now(),"",LocalDateTime.now(),"","A",null,null);
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/ubicacion/1")
+                        MockMvcRequestBuilders.put("/vehiculos/update/1")
+                                .content(objectMapper.writeValueAsString(model))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 
+    @Test
+    void delete() throws Exception{
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/vehiculos/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }

@@ -4,6 +4,7 @@ import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.TransportAgencyModel;
 import hn.com.tigo.remision.services.TransportAgencyServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
+import hn.com.tigo.remision.services.interfaces.ITransportAgencyService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,10 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/agenciastransporte")
 public class TransportAgencyController {
 
-    private final TransportAgencyServiceImpl agencyService;
+    private final ITransportAgencyService agencyService;
     private final Util util;
     private final ILogService logService;
-    public TransportAgencyController(TransportAgencyServiceImpl agencyService, ILogService logService) {
+    public TransportAgencyController(ITransportAgencyService agencyService, ILogService logService) {
         this.agencyService = agencyService;
         this.logService = logService;
         this.util = new Util();
@@ -29,28 +30,28 @@ public class TransportAgencyController {
 
     @GetMapping()
     public ResponseEntity<Object> getAll() {
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), null));
         List<TransportAgencyModel> models = this.agencyService.getAll();
         return ResponseEntity.ok(this.util.setSuccessResponse(models));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), String.valueOf(id)));
         TransportAgencyModel model = this.agencyService.getById(id);
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
 
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody TransportAgencyModel model) {
-        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.Action_Create.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.CREATE.getDescription(), null));
         this.agencyService.add(model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody TransportAgencyModel model) {
-        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.Action_Update.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         this.agencyService.update(id,model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
@@ -66,7 +67,7 @@ public class TransportAgencyController {
         try{
             AuthModel principal = (AuthModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(userName !=null) principal.setUserName(userName);
-            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.Module.getDescription(),"agencias de transporte"),action, "agencia de transporte",key,principal.getIp());
+            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"agencias de transporte"),action, "agencia de transporte",key,principal.getIp());
         }catch (Exception e) {
             e.printStackTrace();
         }

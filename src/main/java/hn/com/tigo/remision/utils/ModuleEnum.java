@@ -1,10 +1,10 @@
 package hn.com.tigo.remision.utils;
 
 public enum ModuleEnum {
-    Module("Mantenimiento de %s"),
-    Action_Update("Actualiza"),
-    Action_Create("Agrega Elemento"),
-    Action_Load("Consulta Elemento");
+    CREATE("Agrega Elemento"),
+    LOAD("Consulta Elemento"),
+    MODULE("Mantenimiento de %s"),
+    UPDATE("Actualiza");
 
 
     private String description;

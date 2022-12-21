@@ -4,6 +4,7 @@ import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.UnitOfMeasurementModel;
 import hn.com.tigo.remision.services.UnitServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
+import hn.com.tigo.remision.services.interfaces.IUnitService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,11 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/unidadmedida")
 public class UnitController {
 
-    private final UnitServiceImpl unitService;
+    private final IUnitService unitService;
     private final Util util;
     private final ILogService logService;
 
-    public UnitController(UnitServiceImpl unitService, ILogService logService) {
+    public UnitController(IUnitService unitService, ILogService logService) {
         this.unitService = unitService;
         this.logService = logService;
         this.util = new Util();
@@ -30,28 +31,28 @@ public class UnitController {
 
     @GetMapping()
     public ResponseEntity<Object> getAll(){
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), null));
         List<UnitOfMeasurementModel> model = this.unitService.getAll();
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        CompletableFuture.runAsync(() -> log(null,ModuleEnum.Action_Load.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), String.valueOf(id)));
         UnitOfMeasurementModel model = this.unitService.getById(id);
         return ResponseEntity.ok(this.util.setSuccessResponse(model));
     }
 
     @PostMapping("/add")
     public ResponseEntity<Object> add(@Valid @RequestBody UnitOfMeasurementModel model) {
-        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.Action_Create.getDescription(), null));
+        CompletableFuture.runAsync(() -> log(model.getCreatedBy(), ModuleEnum.CREATE.getDescription(), null));
         this.unitService.add(model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody UnitOfMeasurementModel model) {
-        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.Action_Update.getDescription(), String.valueOf(id)));
+        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         this.unitService.update(id,model);
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
@@ -66,7 +67,7 @@ public class UnitController {
         try{
             AuthModel principal = (AuthModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(userName !=null) principal.setUserName(userName);
-            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.Module.getDescription(),"Unidades de Medida"),action, "unidad de medida",key,principal.getIp());
+            this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Unidades de Medida"),action, "unidad de medida",key,principal.getIp());
         }catch (Exception e) {
             e.printStackTrace();
         }

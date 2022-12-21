@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @ToString
 @NoArgsConstructor
+@Slf4j
 public class UnitOfMeasurementEntity implements Serializable {
 
     @Id
@@ -62,8 +64,7 @@ public class UnitOfMeasurementEntity implements Serializable {
         try{
             model.setModifiedAtString(this.getFechaEdita()== null ? null : this.getFechaEdita().format(formatter));
         }catch (Exception e){
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setModifiedAtString(this.getFechaEdita()== null ? null : this.getFechaEdita().format(formatterDate));
+           log.info(e.getMessage());
         }
 
         return model;

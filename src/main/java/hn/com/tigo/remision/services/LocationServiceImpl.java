@@ -31,14 +31,13 @@ public class LocationServiceImpl implements ILocationService {
     public List<LocationModel> getAll() {
 
        List<LocationEntity> entities = this.locationRepository.findAll();
-       return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+       return entities.stream().map(LocationEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public LocationModel getById(Long id) {
-        LocationModel model = new LocationModel();
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get,Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -62,7 +61,7 @@ public class LocationServiceImpl implements ILocationService {
     @Override
     public void update(Long id,LocationModel model) {
         LocationEntity entity = this.locationRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setModifiedAt(LocalDateTime.now());

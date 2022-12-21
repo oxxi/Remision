@@ -9,6 +9,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AuthModel {
-    private String UserName;
+    private String userName;
     private String ip;
 }

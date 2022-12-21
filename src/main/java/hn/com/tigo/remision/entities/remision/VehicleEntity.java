@@ -71,33 +71,34 @@ public class VehicleEntity implements Serializable {
 
     public VehicleModel entityToModel() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-        VehicleModel model = new VehicleModel();
-        model.setId(this.getId());
-        model.setModel(this.getModel());
-        model.setLicensePlate(this.getLicensePlate());
-        model.setBrand(this.getBrand());
-        model.setYear(this.getYear());
-        model.setAgencyName(this.getTransportAgencyEntity().getName());
-        model.setCreatedBy(this.getCreatedBy());
-        model.setModifiedBy(this.getModifiedBy());
-        model.setColor(this.getColor());
-        model.setIdAgency(this.getIdTransportAgency());
-        model.setVehicleType(this.getIdVehicleType());
-        model.setTransportAgency(this.getTransportAgencyEntity().entityToModel());
-        model.setVehicleTypes(this.getVehicleTypeEntity().entityToModel());
-        model.setCreatedAt(this.getCreatedAt());
-        model.setModifiedAt(this.getModifiedAt());
-        model.setStatus(this.getStatus());
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        VehicleModel vehicleModel = new VehicleModel();
+        vehicleModel.setId(this.getId());
+        vehicleModel.setModel(this.getModel());
+        vehicleModel.setLicensePlate(this.getLicensePlate());
+        vehicleModel.setBrand(this.getBrand());
+        vehicleModel.setYear(this.getYear());
+        vehicleModel.setAgencyName(this.getTransportAgencyEntity().getName());
+        vehicleModel.setCreatedBy(this.getCreatedBy());
+        vehicleModel.setModifiedBy(this.getModifiedBy());
+        vehicleModel.setColor(this.getColor());
+        vehicleModel.setIdAgency(this.getIdTransportAgency());
+        vehicleModel.setVehicleType(this.getIdVehicleType());
+        vehicleModel.setTransportAgency(this.getTransportAgencyEntity().entityToModel());
+        vehicleModel.setVehicleTypes(this.getVehicleTypeEntity().entityToModel());
+        vehicleModel.setCreatedAt(this.getCreatedAt());
+        vehicleModel.setModifiedAt(this.getModifiedAt());
+        vehicleModel.setStatus(this.getStatus());
         try
         {
-            model.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatter));
-            model.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatter));
+            vehicleModel.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatter));
+            vehicleModel.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatter));
         }catch (Exception e){
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatterDate));
-            model.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatterDate));
+
+            vehicleModel.setCreatedAtString(this.getCreatedAt() == null? null: this.getCreatedAt().format(formatterDate));
+            vehicleModel.setModifiedAtString(this.getModifiedAt() == null? null : this.getModifiedAt().format(formatterDate));
         }
 
-        return  model;
+        return  vehicleModel;
     }
 }

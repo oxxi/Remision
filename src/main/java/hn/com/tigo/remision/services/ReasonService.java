@@ -8,7 +8,6 @@ import hn.com.tigo.remision.services.interfaces.IReasonService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,13 +25,13 @@ public class ReasonService implements IReasonService {
     @Override
     public List<ReasonModel> getAll() {
         List<ReasonEntity> entities = this.reasonRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt","id"));
-        return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+        return entities.stream().map(ReasonEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public ReasonModel getById(Long id) {
         ReasonEntity entity= this.reasonRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -51,7 +50,7 @@ public class ReasonService implements IReasonService {
     @Override
     public void update(Long id, ReasonModel model) {
         ReasonEntity entity= this.reasonRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setDescription(model.getDescription());

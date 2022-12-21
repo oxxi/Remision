@@ -1,19 +1,14 @@
 package hn.com.tigo.remision.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hn.com.tigo.remision.models.LocationModel;
-
-import hn.com.tigo.remision.services.LocationServiceImpl;
-
-import hn.com.tigo.remision.services.interfaces.ILocationService;
+import hn.com.tigo.remision.models.ReasonModel;
 import hn.com.tigo.remision.services.interfaces.ILogService;
+import hn.com.tigo.remision.services.interfaces.IReasonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,68 +18,49 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@WebMvcTest({LocationController.class})
+@WebMvcTest({ReasonController.class})
 @ExtendWith(MockitoExtension.class)
-class LocationControllerTest {
 
+class ReasonControllerTest {
 
     private MockMvc mockMvc;
     @MockBean
-    ILocationService locationService;
+    ILogService logService;
 
     @MockBean
-    ILogService logService;
+    IReasonService reasonService;
+
 
     @Autowired
     private ObjectMapper objectMapper;
-
 
     @BeforeEach
     public void setUp(WebApplicationContext context) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @Test
-    void getAll_When_isOk() throws Exception {
-
-    }
-
-    @Test
-    void getAll_when_is_empty() throws Exception {
-
-        when(locationService.getAll()).thenReturn(null);
-        mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json("{}")
-                ).andExpect(jsonPath("$.data").isEmpty());
-
-
-    }
-
-
 
     @Test
     void getAll() throws Exception {
-        List<LocationModel> locationModelList = Arrays.asList(
-                new LocationModel(1L,"ShortCode1","full address","","","","",""),
-                new LocationModel(2L,"ShortCode2","full address 2","","","","","")
+
+        List<ReasonModel> ModelList = Arrays.asList(
+                new ReasonModel(1L,"","",LocalDateTime.now(),"","", LocalDateTime.now(),"","A"),
+                new ReasonModel(2L,"","",LocalDateTime.now(),"","", LocalDateTime.now(),"","A")
         );
 
 
-        when(locationService.getAll()).thenReturn(locationModelList);
+        when(reasonService.getAll()).thenReturn(ModelList);
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion"))
+                        MockMvcRequestBuilders.get("/motivos"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}")
@@ -93,10 +69,11 @@ class LocationControllerTest {
 
     @Test
     void getById() throws Exception {
-        when(locationService.getById(1L)).thenReturn( new LocationModel(1L,"ShortCode1","full address","","","","",""));
+
+        when(reasonService.getById(1L)).thenReturn(new ReasonModel(1L,"","",LocalDateTime.now(),"","", LocalDateTime.now(),"","A"));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/ubicacion/1"))
+                        MockMvcRequestBuilders.get("/motivos/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}"))
@@ -105,22 +82,23 @@ class LocationControllerTest {
     }
 
     @Test
-    void add() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","","","A");
+    void add() throws Exception{
+
+        ReasonModel model =  new ReasonModel(1L,"","",LocalDateTime.now(),"","", LocalDateTime.now(),"","A");
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/ubicacion/add")
+                        MockMvcRequestBuilders.post("/motivos/add")
                                 .content(objectMapper.writeValueAsString(model))
                                 .contentType(MediaType.APPLICATION_JSON)
-                    )
+                )
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    void update() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","Test","","A");
+    void update() throws Exception{
+        ReasonModel model =  new ReasonModel(1L,"","",LocalDateTime.now(),"","", LocalDateTime.now(),"","A");
         mockMvc.perform(
-                        MockMvcRequestBuilders.put("/ubicacion/update/1")
+                        MockMvcRequestBuilders.put("/motivos/update/1")
                                 .content(objectMapper.writeValueAsString(model))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -130,14 +108,11 @@ class LocationControllerTest {
 
     @Test
     void delete() throws Exception {
-
         mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/ubicacion/1")
-                                .contentType(MediaType.APPLICATION_JSON)
+                        MockMvcRequestBuilders.delete("/motivos/1")
+                             .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
-
 }

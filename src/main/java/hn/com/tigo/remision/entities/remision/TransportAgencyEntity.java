@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor
+@Slf4j
 public class TransportAgencyEntity implements Serializable {
 
     @Id
@@ -72,9 +74,7 @@ public class TransportAgencyEntity implements Serializable {
             model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
             model.setCreatedAtString(this.getCreatedAt().format(formatter));
         }catch (Exception e) {
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatterDate));
-            model.setCreatedAtString(this.getCreatedAt().format(formatterDate));
+            log.info(e.getMessage());
         }
         return model;
     }

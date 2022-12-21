@@ -4,10 +4,10 @@ import hn.com.tigo.remision.models.MotoristModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class MotoristEntity implements Serializable {
 
     @Id
@@ -74,8 +75,7 @@ public class MotoristEntity implements Serializable {
        try{
            model.setModifiedAt(this.getModifiedAt() == null ? "":  this.getModifiedAt().format(formatter));
        }catch (Exception e) {
-           DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-           model.setModifiedAt(this.getModifiedAt() !=null ? this.getModifiedAt().format(formatterDate) : null);
+           log.info(e.getMessage());
        }
         return model;
     }

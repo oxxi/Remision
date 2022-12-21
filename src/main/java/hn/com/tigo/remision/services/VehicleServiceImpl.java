@@ -7,7 +7,6 @@ import hn.com.tigo.remision.models.VehicleModel;
 import hn.com.tigo.remision.repositories.remision.IVehicleRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,14 +25,14 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public List<VehicleModel> getAll() {
         List<VehicleEntity> entities = this.vehicleRepository.findAll();
-       return  entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+       return  entities.stream().map(VehicleEntity::entityToModel).collect(Collectors.toList());
 
     }
 
     @Override
     public VehicleModel getById(Long id) {
         VehicleEntity entity = this.vehicleRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error get,Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -58,8 +57,11 @@ public class VehicleServiceImpl implements IVehicleService {
     public void update(Long id, VehicleModel model) {
 
         VehicleEntity entity = this.vehicleRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
-        if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
+        if(entity == null) throw new BadRequestException(String.format("Error update,Record with id %s is not valid",id));
+        if(model.getModifiedBy().trim().isEmpty()){
+            throw new BadRequestException("Field Modified by is required");
+        }
+
 
         entity.setId(model.getId());
         entity.setLicensePlate(model.getLicensePlate());

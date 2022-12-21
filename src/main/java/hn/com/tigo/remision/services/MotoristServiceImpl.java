@@ -24,13 +24,13 @@ public class MotoristServiceImpl implements IMotoristService {
     @Override
     public List<MotoristModel> getAll() {
        List<MotoristEntity> entities = this.motoristRepository.findAll(Sort.by(Sort.Direction.DESC,"createdBy"));
-       return entities.stream().map(e->e.entityToModel()).collect(Collectors.toList());
+       return entities.stream().map(MotoristEntity::entityToModel).collect(Collectors.toList());
     }
 
     @Override
     public MotoristModel getById(Long id) {
         MotoristEntity entity = this.motoristRepository.findById(id).orElse(null);
-        if(entity == null) throw new RuntimeException("Cambiar por respuesta de Tigo");
+        if(entity == null) throw new BadRequestException(String.format("Error get,Record with id %s is not valid",id));
         return entity.entityToModel();
     }
 
@@ -52,7 +52,7 @@ public class MotoristServiceImpl implements IMotoristService {
     @Override
     public void update(Long id, MotoristModel model) {
         MotoristEntity entity = this.motoristRepository.findById(id).orElse(null);
-        if(entity == null) throw new BadRequestException(String.format("Record with id %s is not valid",id));
+        if(entity == null) throw new BadRequestException(String.format("Error update, Record with id %s is not valid",id));
         if(model.getModifiedBy() == null) throw new BadRequestException("Field Modified by is required");
 
         entity.setName(model.getName().toUpperCase());

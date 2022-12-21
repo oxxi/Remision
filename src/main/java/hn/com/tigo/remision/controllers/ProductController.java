@@ -1,8 +1,8 @@
 package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.ProductModel;
-import hn.com.tigo.remision.services.LocationServiceImpl;
 import hn.com.tigo.remision.services.ProductServiceImpl;
+import hn.com.tigo.remision.services.interfaces.IProductService;
 import hn.com.tigo.remision.utils.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +17,20 @@ import java.util.List;
 @Slf4j
 public class ProductController {
 
-    private final ProductServiceImpl productService;
+    private final IProductService productService;
 
-    private Util _util;
+    private Util util;
 
 
-    public ProductController(ProductServiceImpl productService, LocationServiceImpl locationService) {
+    public ProductController(IProductService productService) {
         this.productService = productService;
-        this._util = new Util();
+        this.util = new Util();
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<Object> getAll() {
         List<ProductModel> models = this.productService.getAll();
-        return ResponseEntity.ok(this._util.setSuccessResponse(models));
+        return ResponseEntity.ok(this.util.setSuccessResponse(models));
     }
 
 

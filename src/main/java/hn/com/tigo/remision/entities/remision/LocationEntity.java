@@ -4,6 +4,7 @@ import hn.com.tigo.remision.models.LocationModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class LocationEntity implements Serializable {
 
     @Id
@@ -59,9 +61,7 @@ public class LocationEntity implements Serializable {
             model.setCreatedAt(this.getCreatedAt() == null ? null :  this.getCreatedAt().format(formatter));
             model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
         }catch (Exception e) {
-            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setCreatedAt(this.getCreatedAt() == null ? null :  this.getCreatedAt().format(formatter2));
-            model.setModifiedAt(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter2));
+            log.info(e.getMessage());
         }
 
         return model;

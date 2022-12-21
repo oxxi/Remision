@@ -4,13 +4,13 @@ import hn.com.tigo.remision.models.WarehouseManagerModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Slf4j
 public class WarehouseManagerEntity implements Serializable {
 
     @Id
@@ -58,9 +59,7 @@ public class WarehouseManagerEntity implements Serializable {
             model.setModifiedAtString(this.getModifiedAt() == null ? null : this.getModifiedAt().format(formatter));
             model.setCreatedAtString(this.getCreatedAt().format(formatter));
         }catch (Exception e) {
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            model.setModifiedAtString(this.getModifiedAt() !=null ? this.getModifiedAt().format(formatterDate) : null);
-            model.setCreatedAtString(this.getCreatedAt().format(formatterDate));
+            log.info(e.getMessage());
         }
 
 
