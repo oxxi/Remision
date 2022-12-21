@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({VehicleTypeController.class})
 @ExtendWith(MockitoExtension.class)
-class VehicleTypeControllerTest {
+public class VehicleTypeControllerTest {
 
     private MockMvc mockMvc;
     @MockBean

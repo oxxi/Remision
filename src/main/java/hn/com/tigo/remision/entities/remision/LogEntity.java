@@ -1,7 +1,9 @@
 package hn.com.tigo.remision.entities.remision;
 
 import hn.com.tigo.remision.models.LogModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +17,8 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "LOG")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Slf4j
 public class LogEntity implements Serializable {
 

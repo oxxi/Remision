@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({ParameterController.class})
 @ExtendWith(MockitoExtension.class)
-class ParameterControllerTest {
+public class ParameterControllerTest {
 
     private MockMvc mockMvc;
 
@@ -67,10 +67,10 @@ class ParameterControllerTest {
     @Test
     void getByName() throws Exception {
 
-        when(parameterService.getById("parameter")).thenReturn( new GeneralParameter("1111","name","last name","","",""));
+        when(parameterService.getById("name_parameter")).thenReturn( new GeneralParameter("1111","name","last name","","",""));
 
         mockMvc.perform(
-                 MockMvcRequestBuilders.get("/parametros?name=1111"))
+                 MockMvcRequestBuilders.get("/parametros/name/name_parameter"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}"));
@@ -103,8 +103,5 @@ class ParameterControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void testGetByName() {
-        Assertions.assertEquals(true,true);
-    }
+
 }

@@ -2,7 +2,9 @@ package hn.com.tigo.remision.entities.remision;
 
 
 import hn.com.tigo.remision.models.GeneralParameter;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class ParameterEntity implements Serializable {
 
     @Id

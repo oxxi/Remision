@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({UnitController.class})
 @ExtendWith(MockitoExtension.class)
-class UnitControllerTest {
+public class UnitControllerTest {
 
 
     private MockMvc mockMvc;

@@ -1,10 +1,8 @@
 package hn.com.tigo.remision.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hn.com.tigo.remision.models.LocationModel;
-
-import hn.com.tigo.remision.services.LocationServiceImpl;
 
 import hn.com.tigo.remision.services.interfaces.ILocationService;
 import hn.com.tigo.remision.services.interfaces.ILogService;
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({LocationController.class})
 @ExtendWith(MockitoExtension.class)
-class LocationControllerTest {
+public class LocationControllerTest {
 
 
     private MockMvc mockMvc;

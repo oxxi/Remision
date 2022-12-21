@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest({ReasonController.class})
 @ExtendWith(MockitoExtension.class)
 
-class ReasonControllerTest {
+public class ReasonControllerTest {
 
     private MockMvc mockMvc;
     @MockBean

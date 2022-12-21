@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({LogController.class})
 @ExtendWith(MockitoExtension.class)
-class LogControllerTest {
+public class LogControllerTest {
 
     private MockMvc mockMvc;
     @MockBean

@@ -1,10 +1,7 @@
 package hn.com.tigo.remision.entities.remision;
 
 import hn.com.tigo.remision.models.TransportAgencyModel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -19,6 +16,7 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class TransportAgencyEntity implements Serializable {
 

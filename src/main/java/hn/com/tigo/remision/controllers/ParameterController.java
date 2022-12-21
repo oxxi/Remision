@@ -2,7 +2,6 @@ package hn.com.tigo.remision.controllers;
 
 import hn.com.tigo.remision.models.AuthModel;
 import hn.com.tigo.remision.models.GeneralParameter;
-import hn.com.tigo.remision.services.ParameterServiceImpl;
 import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IParameterService;
 import hn.com.tigo.remision.utils.ModuleEnum;
@@ -38,7 +37,7 @@ public class ParameterController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Object> getByName(@RequestParam(value = "name") String name ) {
+    public ResponseEntity<Object> getByName(@PathVariable(value = "name") String name ) {
         GeneralParameter param = this.parameterService.getById(name);
         CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(),name));
         return ResponseEntity.ok(this.util.setSuccessResponse(param));

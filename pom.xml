@@ -140,6 +140,17 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/exception/*.class</exclude>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/filters/*.class</exclude>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/RemisionApplication.class</exclude>
+                        <exclude>${project.basedir}/main/java/hn/com/tigo/remision/ServletInitializer.class</exclude>
+<!--                        <exclude>snmaddula/app/exception/*.class</exclude>-->
+<!--                        <exclude>snmaddula/app/filter/*.class</exclude>-->
+<!--                        <exclude>snmaddula/app/App.class</exclude>-->
+                    </excludes>
+                </configuration>
             </plugin>
 
 

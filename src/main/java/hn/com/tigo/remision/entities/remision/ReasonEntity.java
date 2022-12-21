@@ -2,10 +2,7 @@ package hn.com.tigo.remision.entities.remision;
 
 
 import hn.com.tigo.remision.models.ReasonModel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
@@ -22,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class ReasonEntity implements Serializable {
 

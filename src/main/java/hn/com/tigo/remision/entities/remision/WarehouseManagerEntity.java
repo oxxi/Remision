@@ -1,6 +1,7 @@
 package hn.com.tigo.remision.entities.remision;
 
 import hn.com.tigo.remision.models.WarehouseManagerModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class WarehouseManagerEntity implements Serializable {
 

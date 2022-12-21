@@ -1,9 +1,7 @@
 package hn.com.tigo.remision.entities.remision;
 
 import hn.com.tigo.remision.models.MotoristModel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -17,6 +15,8 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @ToString
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class MotoristEntity implements Serializable {
 
     @Id
