@@ -50,7 +50,7 @@ public class LocationServiceImpl implements ILocationService {
         LocationEntity entity = new LocationEntity();
         entity.setId(-1L);//used this to avoid error of identity generation in Hibernate it's no the best way, but works in this scenario when the db already exist
         entity.setAddress(model.getFullAddress());
-        entity.setShortName(Long.parseLong(model.getShortCode()));
+        entity.setShortName(model.getShortCode());
         entity.setUserCreated(model.getCreatedBy());
         entity.setStatus(model.getStatus());
         entity.setCreatedAt(LocalDateTime.now());
@@ -68,7 +68,7 @@ public class LocationServiceImpl implements ILocationService {
         entity.setModifiedBy(model.getModifiedBy());
         entity.setStatus(model.getStatus() == null ? entity.getStatus(): model.getStatus());
         entity.setAddress(model.getFullAddress());
-        entity.setShortName(Long.parseLong(model.getShortCode()));
+        entity.setShortName(model.getShortCode());
         this.locationRepository.saveAndFlush(entity);
     }
 

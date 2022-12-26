@@ -30,7 +30,7 @@ public class LocationEntity implements Serializable {
     private String Address;
 
     @Column(name = "NOMBRE_CORTO")
-    private Long shortName;
+    private int shortName;
 
     @Column(name = "USUARIO_CREA")
     private String userCreated;
@@ -51,7 +51,7 @@ public class LocationEntity implements Serializable {
     public LocationModel entityToModel() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         LocationModel model = new LocationModel();
-        model.setShortCode(this.getShortName().toString());
+        model.setShortCode(this.getShortName());
         model.setId(this.getId());
         model.setFullAddress(this.getAddress());
         model.setCreatedBy(this.getUserCreated());

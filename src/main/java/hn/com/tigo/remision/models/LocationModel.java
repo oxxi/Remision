@@ -16,8 +16,7 @@ public class LocationModel {
 
     private Long id;
     @NotNull
-    @Size(min = 1, max = 50, message = "size must be between 1 and 50")
-    private String shortCode;
+    private int shortCode;
     @NotNull
     @Size(min = 1, max = 100, message = "size must be between 1 and 100")
     private String fullAddress;

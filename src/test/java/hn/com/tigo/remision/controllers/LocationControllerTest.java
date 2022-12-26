@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 public class LocationControllerTest {
 
-
     private MockMvc mockMvc;
     @MockBean
     ILocationService locationService;
@@ -66,17 +65,13 @@ public class LocationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}")
                 ).andExpect(jsonPath("$.data").isEmpty());
-
-
     }
-
-
 
     @Test
     void getAll() throws Exception {
         List<LocationModel> locationModelList = Arrays.asList(
-                new LocationModel(1L,"ShortCode1","full address","","","","",""),
-                new LocationModel(2L,"ShortCode2","full address 2","","","","","")
+                new LocationModel(1L,1,"full address","","","","",""),
+                new LocationModel(2L,1,"full address 2","","","","","")
         );
 
 
@@ -91,7 +86,7 @@ public class LocationControllerTest {
 
     @Test
     void getById() throws Exception {
-        when(locationService.getById(1L)).thenReturn( new LocationModel(1L,"ShortCode1","full address","","","","",""));
+        when(locationService.getById(1L)).thenReturn( new LocationModel(1L,1,"full address","","","","",""));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/ubicacion/1"))
@@ -104,7 +99,7 @@ public class LocationControllerTest {
 
     @Test
     void add() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","","","A");
+        LocationModel model =   new LocationModel(1L,1,"full address","","","","","A");
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/ubicacion/add")
                                 .content(objectMapper.writeValueAsString(model))
@@ -116,7 +111,7 @@ public class LocationControllerTest {
 
     @Test
     void update() throws Exception {
-        LocationModel model =   new LocationModel(1L,"ShortCode1","full address","","","Test","","A");
+        LocationModel model =   new LocationModel(1L,1,"full address","","","Test","","A");
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/ubicacion/update/1")
                                 .content(objectMapper.writeValueAsString(model))
@@ -130,8 +125,8 @@ public class LocationControllerTest {
     void delete() throws Exception {
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/ubicacion/1")
-                                .contentType(MediaType.APPLICATION_JSON)
+                MockMvcRequestBuilders.delete("/ubicacion/1")
+                    .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());

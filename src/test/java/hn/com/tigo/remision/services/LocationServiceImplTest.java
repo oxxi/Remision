@@ -31,7 +31,7 @@ public class LocationServiceImplTest {
 
     @BeforeEach
     public void setUp(){
-        entity = new LocationEntity(1L,"aaa",123L,"", LocalDateTime.now(),"",LocalDateTime.now(),"A");
+        entity = new LocationEntity(1L,"aaa",0,"", LocalDateTime.now(),"",LocalDateTime.now(),"A");
     }
 
     @Test
@@ -59,7 +59,7 @@ public class LocationServiceImplTest {
     @Test
     void add() {
 
-        LocationModel model = new LocationModel(2L,"123","address","test","","","","A");
+        LocationModel model = new LocationModel(2L,0,"address","test","","","","A");
 
         locationService.add(model);
 
@@ -71,7 +71,7 @@ public class LocationServiceImplTest {
     void update() {
 
         given(locationRepository.findById(2L)).willReturn(Optional.ofNullable(entity));
-        LocationModel model = new LocationModel(2L,"123","address","test","","","","A");
+        LocationModel model = new LocationModel(2L,0,"address","test","","","","A");
 
         locationService.update(2L,model);
 

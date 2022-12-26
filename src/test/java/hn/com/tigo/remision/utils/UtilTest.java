@@ -19,7 +19,7 @@ class UtilTest {
     }
     @Test
     void setSuccessResponse() {
-        LocationModel  model = new LocationModel(1L,"","","","","","","A");
+        LocationModel  model = new LocationModel(1L,0,"","","","","","A");
         GeneralResponse gr = util.setSuccessResponse(model);
 
         assertEquals("Success",gr.getDescription());
