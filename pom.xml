@@ -25,11 +25,15 @@
         <sonar.coverage.exclusions>
             hn/com/tigo/remision/exceptions/*.java,
             hn/com/tigo/remision/filters/*.java,
+            src/test/java/hn/com/tigo/remision/RemisionApplication.java,
+            src/test/java/hn/com/tigo/remision/ServletInitializer.java
         </sonar.coverage.exclusions>
         <sonar.exclusions>
             **/exceptions/*.java,
             **/filters/*.java,
-            **/entities/*.java
+            **/entities/*.java,
+            src/test/java/hn/com/tigo/remision/RemisionApplication.java,
+            src/test/java/hn/com/tigo/remision/ServletInitializer.java
         </sonar.exclusions>
     </properties>
     <dependencies>
@@ -100,11 +104,6 @@
             <version>9.7</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

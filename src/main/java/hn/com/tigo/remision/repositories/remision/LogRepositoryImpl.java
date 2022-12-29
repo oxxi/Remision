@@ -2,6 +2,7 @@ package hn.com.tigo.remision.repositories.remision;
 
 import hn.com.tigo.remision.entities.remision.LogEntity;
 import hn.com.tigo.remision.repositories.ICustomRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
+@Slf4j
 public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
 
     private final DataSource dataSource;
@@ -75,7 +77,7 @@ public class LogRepositoryImpl implements ICustomRepository<LogEntity,Long> {
             String sql = "INSERT INTO LOG(USUARIO,FECHA,MODULO,ACCION,OBJETO,LLAVE,IP) VALUES(?,SYSDATE,?,?,?,?,?)";
             jdbcTemplate.update(sql,entity.getUserName(),entity.getModule(),entity.getAction(),entity.getObject(),entity.getKey(),entity.getIp());
         }catch (Exception e){
-            e.printStackTrace();
+           log.info(e.getMessage());
         }
 
     }

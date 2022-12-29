@@ -37,11 +37,8 @@ public class LogController {
 
     @PostMapping("/add")
     public ResponseEntity<Object> insert(@RequestBody LogInsertModel model) {
-
-        throw new RuntimeException();
-//        this.logService.insertLog(model,getIp());
-//
-//        return ResponseEntity.ok(this.util.setSuccessWithoutData());
+        this.logService.insertLog(model,getIp());
+        return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 
     private String getIp() {

@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -30,6 +32,12 @@ public class LocationController {
         this.util = new Util();
 
     }
+
+    @PostConstruct
+    void setGlobalSecurityContext() {
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
+
     @GetMapping()
     public ResponseEntity<Object> getAll() {
 
@@ -52,9 +60,8 @@ public class LocationController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody LocationModel model) {
-
-        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         this.locationService.update(id,model);
+        CompletableFuture.runAsync(() -> log(model.getModifiedBy(), ModuleEnum.UPDATE.getDescription(), String.valueOf(id)));
         return ResponseEntity.ok(this.util.setSuccessWithoutData());
     }
 

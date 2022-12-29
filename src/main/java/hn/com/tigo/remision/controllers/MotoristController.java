@@ -6,16 +6,19 @@ import hn.com.tigo.remision.services.interfaces.ILogService;
 import hn.com.tigo.remision.services.interfaces.IMotoristService;
 import hn.com.tigo.remision.utils.ModuleEnum;
 import hn.com.tigo.remision.utils.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/conductores")
+@Slf4j
 public class MotoristController {
 
     private final IMotoristService motoristService;
@@ -27,6 +30,11 @@ public class MotoristController {
         this.motoristService = motoristService;
         this.logService = logService;
         this.util = new Util();
+    }
+
+    @PostConstruct
+    void setGlobalSecurityContext() {
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
 
     @GetMapping()
@@ -70,7 +78,7 @@ public class MotoristController {
             if(userName !=null) principal.setUserName(userName);
             this.logService.insertLog(principal.getUserName(),String.format(ModuleEnum.MODULE.getDescription(),"Motoristas"),action, "Motorista",key,principal.getIp());
         }catch (Exception e) {
-            e.printStackTrace();
+           log.info(e.getMessage());
         }
     }
 }

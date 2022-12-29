@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +29,10 @@ public class WarehouseManagerController {
         this.logService = logService;
         this.util = new Util();
     }
-
+    @PostConstruct
+    void setGlobalSecurityContext() {
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
     @GetMapping()
     public ResponseEntity<Object> getAll() {
         CompletableFuture.runAsync(() -> log(null,ModuleEnum.LOAD.getDescription(), null));
